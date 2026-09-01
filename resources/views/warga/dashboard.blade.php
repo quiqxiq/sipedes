@@ -20,10 +20,16 @@
             
             <div class="mt-6 flex flex-wrap gap-3 relative z-10">
                 <a href="{{ route('warga.pengajuan.wizard') }}" class="px-5 py-2.5 rounded-xl bg-white text-emerald-800 font-bold text-xs hover:bg-emerald-50 shadow-sm transition-all flex items-center gap-1.5">
-                    <span>✍️</span> Buat Permohonan Surat Baru
+                    <svg class="w-4 h-4 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Buat Permohonan Surat
                 </a>
-                <a href="{{ route('warga.riwayat.index') }}" class="px-5 py-2.5 rounded-xl bg-emerald-900/60 hover:bg-emerald-900/80 text-white font-medium text-xs border border-emerald-500/30 backdrop-blur-md transition-all flex items-center gap-1.5">
-                    <span>📋</span> Lihat Riwayat Saya
+                <a href="{{ route('warga.pengaduan.create') }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5 border border-emerald-400/40">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    Lapor Pengaduan Warga
+                </a>
+                <a href="{{ route('warga.pengaduan.index') }}" class="px-5 py-2.5 rounded-xl bg-emerald-900/60 hover:bg-emerald-900/80 text-white font-medium text-xs border border-emerald-500/30 backdrop-blur-md transition-all flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    Riwayat Laporan Saya
                 </a>
             </div>
         </div>
@@ -63,8 +69,8 @@
 
             @if($permohonanTerakhir->isEmpty())
                 <div class="p-12 text-center space-y-3">
-                    <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto text-xl">
-                        📭
+                    <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     </div>
                     <p class="text-xs text-slate-500">Anda belum pernah mengajukan permohonan surat.</p>
                     <a href="{{ route('warga.pengajuan.wizard') }}" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 transition-all">

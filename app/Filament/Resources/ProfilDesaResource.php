@@ -41,15 +41,21 @@ class ProfilDesaResource extends Resource
                 Section::make('Informasi Wilayah Desa')
                     ->schema([
                         Forms\Components\TextInput::make('nama_desa')->label('Nama Desa')->required(),
+                        Forms\Components\TextInput::make('kepala_desa')->label('Nama Kepala Desa')->required(),
                         Forms\Components\TextInput::make('kecamatan')->label('Kecamatan')->required(),
                         Forms\Components\TextInput::make('kabupaten')->label('Kabupaten/Kota')->required(),
                         Forms\Components\TextInput::make('provinsi')->label('Provinsi')->required(),
+                        Forms\Components\TextInput::make('kode_pos')->label('Kode Pos')->required(),
                     ])->columns(2),
 
                 Section::make('Profil & Keterangan')
                     ->schema([
-                        Forms\Components\Textarea::make('sejarah')->label('Sejarah Desa')->rows(4),
+                        Forms\Components\Textarea::make('sejarah')->label('Sejarah & Gambaran Desa')->rows(4),
                         Forms\Components\Textarea::make('visi_misi')->label('Visi & Misi Desa')->rows(5),
+                        Forms\Components\KeyValue::make('potensi_desa')
+                            ->label('Potensi Unggulan Desa (pertanian, peternakan, umkm, bumdes)')
+                            ->keyLabel('Sektor Potensi')
+                            ->valueLabel('Deskripsi'),
                     ]),
 
                 Section::make('Kontak & Jam Operasional')

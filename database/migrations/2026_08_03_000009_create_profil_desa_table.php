@@ -14,11 +14,15 @@ return new class extends Migration
         Schema::create('profil_desa', function (Blueprint $table) {
             $table->id();
             $table->string('nama_desa')->default('Desa Rombiyah Barat');
-            $table->string('kecamatan')->default('Gandusari');
-            $table->string('kabupaten')->default('Blitar');
+            $table->string('kepala_desa')->default('Farhah');
+            $table->string('kecamatan')->default('Ganding');
+            $table->string('kabupaten')->default('Sumenep');
             $table->string('provinsi')->default('Jawa Timur');
+            $table->string('kode_pos')->default('69462');
             $table->text('sejarah')->nullable();
             $table->text('visi_misi')->nullable();
+            $table->json('dusun_list')->nullable(); // daftar 5 dusun
+            $table->json('potensi_desa')->nullable(); // pertanian tembakau, BUMDes, dll
             $table->json('kontak')->nullable(); // telepon, email, alamat_kantor
             $table->json('jam_operasional')->nullable();
             $table->json('statistik')->nullable(); // jumlah_penduduk, dll

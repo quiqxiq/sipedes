@@ -18,7 +18,9 @@
 
             <div>
                 <label for="nik" class="block text-xs font-semibold text-slate-700 mb-1">Nomor Induk Kependudukan (NIK)</label>
-                <input id="nik" name="nik" type="text" value="{{ old('nik') }}" required autofocus maxlength="16" placeholder="Masukkan 16 digit NIK Anda" 
+                <input id="nik" name="nik" type="text" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" 
+                    value="{{ old('nik') }}" required autofocus placeholder="Masukkan 16 digit NIK Anda" 
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);"
                     class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all @error('nik') border-rose-500 @enderror">
                 @error('nik')
                     <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>

@@ -17,22 +17,25 @@
             </div>
 
             <!-- Navigation Links -->
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="{{ route('warga.landing') }}" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">
+            <div class="hidden lg:flex items-center space-x-5">
+                <a href="{{ route('warga.landing') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Beranda
                 </a>
-                <a href="{{ route('warga.landing') }}#layanan" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">
+                <a href="{{ route('warga.landing') }}#layanan" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Layanan Surat
                 </a>
-                <a href="{{ route('warga.landing') }}#profil" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">
-                    Profil Desa
+                <a href="{{ route('warga.pengaduan.create') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                    Lapor Pengaduan
+                </a>
+                <a href="{{ route('warga.informasi.bansos') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                    Bansos & Program
+                </a>
+                <a href="{{ route('warga.informasi.index') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                    Warta & Pamong
                 </a>
                 @auth
-                    <a href="{{ route('warga.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">
-                        Dashboard Saya
-                    </a>
-                    <a href="{{ route('warga.riwayat.index') }}" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">
-                        Riwayat Surat
+                    <a href="{{ route('warga.dashboard') }}" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg hover:bg-emerald-100 transition-colors">
+                        Dashboard Warga
                     </a>
                 @endauth
             </div>

@@ -49,7 +49,9 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('nik')
                             ->label('NIK (Nomor Induk Kependudukan)')
                             ->placeholder('16 Digit NIK')
+                            ->numeric()
                             ->length(16)
+                            ->rules(['digits:16'])
                             ->nullable()
                             ->unique(ignoreRecord: true),
 

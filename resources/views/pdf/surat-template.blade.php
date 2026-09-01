@@ -74,10 +74,10 @@
 
     <!-- Kop Surat -->
     <div class="kop-header">
-        <h3>PEMERINTAH KABUPATEN {{ strtoupper($profil->kabupaten ?? 'BLITAR') }}</h3>
-        <h3>KECAMATAN {{ strtoupper($profil->kecamatan ?? 'GANDUSARI') }}</h3>
+        <h3>PEMERINTAH KABUPATEN {{ strtoupper($profil->kabupaten ?? 'SUMENEP') }}</h3>
+        <h3>KECAMATAN {{ strtoupper($profil->kecamatan ?? 'GANDING') }}</h3>
         <h2>PEMERINTAH DESA {{ strtoupper($profil->nama_desa ?? 'ROMBIYAH BARAT') }}</h2>
-        <p>{{ $profil->kontak['alamat_kantor'] ?? 'Jl. Raya Desa Rombiyah Barat No. 01' }} | Email: {{ $profil->kontak['email'] ?? 'layanan@rombiyahbarat.desa.id' }}</p>
+        <p>{{ $profil->kontak['alamat_kantor'] ?? 'Jl. Raya Ganding - Rombiyah Barat No. 01, Kec. Ganding, Kab. Sumenep 69462' }} | Telp: {{ $profil->kontak['telepon'] ?? '082334567890' }}</p>
     </div>
 
     <!-- Judul & Nomor Surat -->
@@ -88,7 +88,7 @@
 
     <!-- Isi Surat -->
     <div class="isi-surat">
-        <p>Yang bertanda tangan di bawah ini Kepala Desa {{ $profil->nama_desa ?? 'Rombiyah Barat' }}, Kecamatan {{ $profil->kecamatan ?? 'Gandusari' }}, Kabupaten {{ $profil->kabupaten ?? 'Blitar' }}, menerangkan dengan sebenarnya bahwa:</p>
+        <p>Yang bertanda tangan di bawah ini Kepala Desa {{ $profil->nama_desa ?? 'Rombiyah Barat' }}, Kecamatan {{ $profil->kecamatan ?? 'Ganding' }}, Kabupaten {{ $profil->kabupaten ?? 'Sumenep' }}, menerangkan dengan sebenarnya bahwa:</p>
 
         <table class="table-data">
             <tr>
@@ -113,7 +113,7 @@
             </tr>
         </table>
 
-        <p>Orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di wilayah Desa {{ $profil->nama_desa ?? 'Rombiyah Barat' }}. Surat keterangan ini diterbitkan secara sah dan digital berdasarkan verifikasi berkas persyaratan permohonan {{ $permohonan->jenisSurat->nama ?? '' }}.</p>
+        <p>Orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di wilayah Desa {{ $profil->nama_desa ?? 'Rombiyah Barat' }}, Kecamatan {{ $profil->kecamatan ?? 'Ganding' }}, Kabupaten {{ $profil->kabupaten ?? 'Sumenep' }}. Surat keterangan ini diterbitkan secara sah dan digital berdasarkan verifikasi berkas persyaratan permohonan {{ $permohonan->jenisSurat->nama ?? '' }}.</p>
 
         <p>Demikian Surat Keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p>
     </div>
@@ -124,7 +124,7 @@
             <p>Rombiyah Barat, {{ $permohonan->updated_at ? $permohonan->updated_at->format('d F Y') : date('d F Y') }}</p>
             <p>Kepala Desa Rombiyah Barat</p>
             <br><br><br><br>
-            <p><strong><u>H. AHMAD FAUZI</u></strong></p>
+            <p><strong><u>{{ strtoupper($profil->kepala_desa ?? 'FARHAH') }}</u></strong></p>
         </div>
     </div>
 

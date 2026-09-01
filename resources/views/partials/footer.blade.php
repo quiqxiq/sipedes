@@ -13,18 +13,18 @@
                     Sistem Informasi Pelayanan Desa & Portal Administrasi Warga Berbasis Artificial Intelligence RAG (Dify AI).
                 </p>
                 <p class="text-xs text-slate-400">
-                    📍 Jl. Raya Desa Rombiyah Barat No. 01, Kec. Gandusari, Kab. Blitar, Jawa Timur.
+                    Kantor Balai Desa Rombiyah Barat, Jl. Raya Ganding - Rombiyah Barat No. 01, Kec. Ganding, Kab. Sumenep, Jawa Timur 69462.
                 </p>
             </div>
 
             <!-- Quick Links -->
             <div class="space-y-3">
-                <h4 class="text-sm font-semibold text-white tracking-wide">Navigasi Layanan</h4>
+                <h4 class="text-sm font-semibold text-white tracking-wide">Pelayanan Terpadu Desa</h4>
                 <ul class="space-y-2 text-xs">
-                    <li><a href="{{ route('warga.landing') }}" class="hover:text-emerald-400 transition-colors">Beranda Pelayanan</a></li>
-                    <li><a href="{{ route('warga.landing') }}#layanan" class="hover:text-emerald-400 transition-colors">Daftar Jenis Surat</a></li>
-                    <li><a href="{{ route('warga.pengajuan.wizard') }}" class="hover:text-emerald-400 transition-colors">Pengajuan Surat Online</a></li>
-                    <li><a href="{{ route('warga.riwayat.index') }}" class="hover:text-emerald-400 transition-colors">Cek Status & Riwayat</a></li>
+                    <li><a href="{{ route('warga.pengajuan.wizard') }}" class="hover:text-emerald-400 transition-colors">Pelayanan Surat Online</a></li>
+                    <li><a href="{{ route('warga.pengaduan.create') }}" class="hover:text-emerald-400 transition-colors">Lapor Pengaduan & Aspirasi Warga</a></li>
+                    <li><a href="{{ route('warga.informasi.bansos') }}" class="hover:text-emerald-400 transition-colors">Informasi Bansos (BLT-DD & Pangan)</a></li>
+                    <li><a href="{{ route('warga.informasi.index') }}" class="hover:text-emerald-400 transition-colors">Struktur Pamong 5 Dusun & Warta Desa</a></li>
                 </ul>
             </div>
 
@@ -38,7 +38,7 @@
                 </ul>
                 <div class="pt-2">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-800 text-xs text-emerald-400 font-medium border border-slate-700">
-                        📞 Hotline WA: 0812-3456-7890
+                        Hotline WA: 0812-3456-7890
                     </span>
                 </div>
             </div>

@@ -13,11 +13,15 @@ class ProfilDesa extends Model
 
     protected $fillable = [
         'nama_desa',
+        'kepala_desa',
         'kecamatan',
         'kabupaten',
         'provinsi',
+        'kode_pos',
         'sejarah',
         'visi_misi',
+        'dusun_list',
+        'potensi_desa',
         'kontak',
         'jam_operasional',
         'statistik',
@@ -26,6 +30,8 @@ class ProfilDesa extends Model
     protected function casts(): array
     {
         return [
+            'dusun_list' => 'array',
+            'potensi_desa' => 'array',
             'kontak' => 'array',
             'jam_operasional' => 'array',
             'statistik' => 'array',

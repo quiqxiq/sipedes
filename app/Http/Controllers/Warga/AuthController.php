@@ -22,8 +22,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'nik' => ['required', 'string'],
+            'nik' => ['required', 'digits:16'],
             'password' => ['required', 'string'],
+        ], [
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.digits' => 'NIK harus berupa 16 digit angka.',
+            'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
         if (Auth::attempt(['nik' => $credentials['nik'], 'password' => $credentials['password']], $request->boolean('remember'))) {
@@ -48,11 +52,15 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'nik' => ['required', 'string', 'size:16', 'unique:users,nik'],
+            'nik' => ['required', 'digits:16', 'unique:users,nik'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'telepon' => ['required', 'string', 'max:20'],
             'alamat' => ['required', 'string', 'max:500'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.digits' => 'NIK harus berupa 16 digit angka.',
+            'nik.unique' => 'NIK sudah terdaftar dalam sistem.',
         ]);
 
         $user = User::create([

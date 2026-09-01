@@ -78,6 +78,32 @@ class JenisSuratSeeder extends Seeder
                 ],
                 'is_active' => true,
             ],
+            [
+                'kode' => 'SKT',
+                'nama' => 'Surat Keterangan Kepemilikan Ternak (Sapi/Kambing)',
+                'deskripsi' => 'Surat keterangan kepemilikan atau pengantar jual beli hewan ternak sapi Madura/kambing warga desa.',
+                'estimasi_waktu' => '1 Hari Kerja',
+                'syarat' => [
+                    'Fotokopi KTP Pemilik Ternak',
+                    'Fotokopi Kartu Keluarga (KK)',
+                    'Surat Pengantar RT/RW',
+                    'Keterangan Ciri-ciri Hewan Ternak (Warna/Cap/Tanduk)',
+                ],
+                'is_active' => true,
+            ],
+            [
+                'kode' => 'SKBM',
+                'nama' => 'Surat Keterangan Belum Menikah',
+                'deskripsi' => 'Surat keterangan status lajang / belum pernah menikah untuk persyaratan kerja, beasiswa, atau kedinasan.',
+                'estimasi_waktu' => '1 Hari Kerja',
+                'syarat' => [
+                    'Fotokopi KTP Pemohon',
+                    'Fotokopi Kartu Keluarga (KK)',
+                    'Surat Pernyataan Belum Menikah Bermaterai',
+                    'Surat Pengantar RT/RW',
+                ],
+                'is_active' => true,
+            ],
         ];
 
         foreach ($suratList as $surat) {

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             JenisSuratSeeder::class,
             ProfilDesaSeeder::class,
             PermohonanSuratSeeder::class,
+            PelayananDesaSeeder::class,
         ]);
     }
 }
