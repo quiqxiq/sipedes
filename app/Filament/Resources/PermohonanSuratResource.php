@@ -6,10 +6,11 @@ use App\Filament\Resources\PermohonanSuratResource\Pages;
 use App\Models\AktivitasLog;
 use App\Models\Notifikasi;
 use App\Models\PermohonanSurat;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,9 +22,9 @@ class PermohonanSuratResource extends Resource
 {
     protected static ?string $model = PermohonanSurat::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Layanan Desa';
+    protected static string|\UnitEnum|null $navigationGroup = 'Layanan Desa';
 
     protected static ?string $navigationLabel = 'Permohonan Surat';
 
@@ -33,11 +34,11 @@ class PermohonanSuratResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Informasi Permohonan')
+                Section::make('Informasi Permohonan')
                     ->schema([
                         Forms\Components\TextInput::make('nomor_permohonan')
                             ->label('Nomor Permohonan')
@@ -80,7 +81,7 @@ class PermohonanSuratResource extends Resource
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Berkas Lampiran')
+                Section::make('Berkas Lampiran')
                     ->schema([
                         Forms\Components\FileUpload::make('file_pdf')
                             ->label('File PDF Surat Resmi (Hasil Generate)')
@@ -157,10 +158,10 @@ class PermohonanSuratResource extends Resource
                     ->label('Jenis Surat'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Actions\ViewAction::make(),
+                Actions\EditAction::make(),
 
-                Tables\Actions\Action::make('setujui')
+                Actions\Action::make('setujui')
                     ->label('Setujui & Proses')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -192,7 +193,7 @@ class PermohonanSuratResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('minta_koreksi')
+                Actions\Action::make('minta_koreksi')
                     ->label('Minta Koreksi')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
@@ -224,7 +225,7 @@ class PermohonanSuratResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('tolak')
+                Actions\Action::make('tolak')
                     ->label('Tolak')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
@@ -258,11 +259,11 @@ class PermohonanSuratResource extends Resource
             ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
-                Infolists\Components\Section::make('Detail Permohonan Surat')
+                Section::make('Detail Permohonan Surat')
                     ->schema([
                         Infolists\Components\TextEntry::make('nomor_permohonan')->label('No. Permohonan'),
                         Infolists\Components\TextEntry::make('user.name')->label('Nama Pemohon'),

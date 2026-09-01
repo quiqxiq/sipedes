@@ -5,8 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\KnowledgeDocumentResource\Pages;
 use App\Models\AktivitasLog;
 use App\Models\KnowledgeDocument;
+use App\Services\DifyService;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,9 +20,9 @@ class KnowledgeDocumentResource extends Resource
 {
     protected static ?string $model = KnowledgeDocument::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cpu-chip';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cpu-chip';
 
-    protected static ?string $navigationGroup = 'Chatbot & AI';
+    protected static string|\UnitEnum|null $navigationGroup = 'Chatbot & AI';
 
     protected static ?string $navigationLabel = 'Dokumen Pengetahuan';
 
@@ -34,11 +37,11 @@ class KnowledgeDocumentResource extends Resource
         return Auth::user()?->isAdmin() ?? false;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Unggah Dokumen Basis Pengetahuan (Dify)')
+                Section::make('Unggah Dokumen Basis Pengetahuan (Dify)')
                     ->schema([
                         Forms\Components\TextInput::make('nama_file')
                             ->label('Nama / Judul Dokumen')
@@ -154,30 +157,127 @@ class KnowledgeDocumentResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
 
-                Tables\Actions\Action::make('sync_dify')
+                Actions\Action::make('sync_dify')
                     ->label('Index ke Dify')
                     ->icon('heroicon-o-arrow-path')
                     ->color('primary')
+                    ->requiresConfirmation()
+                    ->modalHeading('Index dokumen ke Dify?')
+                    ->modalDescription('File akan diunggah ke Knowledge Base Dify untuk diproses (chunking & indexing).')
                     ->action(function (KnowledgeDocument $record): void {
-                        // Dummy/Mock status transition until DifyService API client is called
+                        $dify = app(DifyService::class);
+
+                        if (filled($record->dify_document_id)) {
+                            Notification::make()
+                                ->title('Dokumen sudah pernah di-index ke Dify')
+                                ->body('Gunakan aksi "Cek Status" untuk melihat status indexing terkini.')
+                                ->info()
+                                ->send();
+
+                            return;
+                        }
+
+                        if (! $dify->isKnowledgeConfigured()) {
+                            Notification::make()
+                                ->title('Konfigurasi Dify belum lengkap')
+                                ->body('Periksa DIFY_KNOWLEDGE_API_KEY dan DIFY_DATASET_ID di file .env.')
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
+                        $filePath = $dify->resolveStoredFilePath($record->path);
+
+                        if (! $filePath) {
+                            Notification::make()
+                                ->title('File dokumen tidak ditemukan')
+                                ->body('File tidak ada di storage, tidak dapat di-upload ke Dify.')
+                                ->warning()
+                                ->send();
+
+                            return;
+                        }
+
+                        $fileName = DifyService::buildDocumentName($record->nama_file, pathinfo($record->path, PATHINFO_EXTENSION));
+
+                        $result = $dify->uploadDocument($filePath, $fileName);
+
+                        if (! $result['success']) {
+                            Notification::make()
+                                ->title('Gagal upload ke Dify')
+                                ->body($result['message'] ?? 'Terjadi kesalahan saat menghubungi Dify.')
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
                         $record->update([
-                            'status_indexing' => 'indexed',
-                            'is_indexed' => true,
-                            'jumlah_chunks' => rand(5, 25),
-                            'dify_document_id' => 'doc-' => uniqid(),
+                            'dify_document_id' => $result['document_id'],
+                            'status_indexing' => $result['indexing_status'] ?? 'processing',
+                            'is_indexed' => ($result['indexing_status'] ?? '') === 'completed',
                         ]);
 
-                        AktivitasLog::catat(Auth::id(), 'knowledge', 'index_dify', "Sync dokumen '{$record->nama_file}' ke Dify Knowledge Base");
+                        AktivitasLog::catat(Auth::id(), 'knowledge', 'index_dify', "Upload dokumen '{$record->nama_file}' ke Dify Knowledge Base");
 
                         Notification::make()
-                            ->title('Dokumen berhasil dikirim dan terindeks di Dify RAG')
+                            ->title('Dokumen berhasil dikirim ke Dify')
+                            ->body('Status indexing: ' . ($result['indexing_status'] ?? 'processing'))
                             ->success()
                             ->send();
                     }),
 
-                Tables\Actions\DeleteAction::make(),
+                Actions\Action::make('cek_status')
+                    ->label('Cek Status')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('gray')
+                    ->visible(fn (KnowledgeDocument $record): bool => filled($record->dify_document_id))
+                    ->action(function (KnowledgeDocument $record): void {
+                        $dify = app(DifyService::class);
+
+                        $result = $dify->getIndexingStatus($record->dify_document_id);
+
+                        if (! $result['success']) {
+                            Notification::make()
+                                ->title('Gagal mengambil status')
+                                ->body($result['message'] ?? 'Terjadi kesalahan saat menghubungi Dify.')
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
+                        $status = $result['status'] ?? $record->status_indexing;
+
+                        $record->update([
+                            'status_indexing' => $status,
+                            'jumlah_chunks' => $result['completed_segments'] ?? $record->jumlah_chunks,
+                            'is_indexed' => $status === 'completed',
+                        ]);
+
+                        $statusLabel = match ($status) {
+                            'completed' => 'Terindeks',
+                            'indexing', 'parsing', 'cleaning', 'splitting' => 'Sedang Diproses',
+                            'error' => 'Gagal Indexing',
+                            default => ucfirst($status),
+                        };
+
+                        Notification::make()
+                            ->title("Status Indexing: {$statusLabel}")
+                            ->body(filled($result['completed_segments']) ? "Segmen terindeks: {$result['completed_segments']}" : null)
+                            ->success()
+                            ->send();
+                    }),
+
+                Actions\DeleteAction::make()
+                    ->after(function (KnowledgeDocument $record): void {
+                        if (filled($record->dify_document_id)) {
+                            app(DifyService::class)->deleteDocument($record->dify_document_id);
+                        }
+                    }),
             ]);
     }
 

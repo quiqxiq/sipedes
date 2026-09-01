@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'dify' => [
+        'base_url' => env('DIFY_BASE_URL', 'http://localhost/v1'),
+        'api_key' => env('DIFY_API_KEY'),
+        'knowledge_api_key' => env('DIFY_KNOWLEDGE_API_KEY'),
+        'dataset_id' => env('DIFY_DATASET_ID'),
+    ],
+
 ];

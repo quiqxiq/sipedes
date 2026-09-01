@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProfilDesaResource\Pages;
 use App\Models\ProfilDesa;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,9 +17,9 @@ class ProfilDesaResource extends Resource
 {
     protected static ?string $model = ProfilDesa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-library';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-building-library';
 
-    protected static ?string $navigationGroup = 'Master Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Master Data';
 
     protected static ?string $navigationLabel = 'Profil Desa';
 
@@ -32,11 +34,11 @@ class ProfilDesaResource extends Resource
         return Auth::user()?->isAdmin() ?? false;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Informasi Wilayah Desa')
+                Section::make('Informasi Wilayah Desa')
                     ->schema([
                         Forms\Components\TextInput::make('nama_desa')->label('Nama Desa')->required(),
                         Forms\Components\TextInput::make('kecamatan')->label('Kecamatan')->required(),
@@ -44,13 +46,13 @@ class ProfilDesaResource extends Resource
                         Forms\Components\TextInput::make('provinsi')->label('Provinsi')->required(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Profil & Keterangan')
+                Section::make('Profil & Keterangan')
                     ->schema([
                         Forms\Components\Textarea::make('sejarah')->label('Sejarah Desa')->rows(4),
                         Forms\Components\Textarea::make('visi_misi')->label('Visi & Misi Desa')->rows(5),
                     ]),
 
-                Forms\Components\Section::make('Kontak & Jam Operasional')
+                Section::make('Kontak & Jam Operasional')
                     ->schema([
                         Forms\Components\KeyValue::make('kontak')
                             ->label('Kontak Resmi (telepon, whatsapp, email, alamat_kantor)')
@@ -81,7 +83,7 @@ class ProfilDesaResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')->label('Terakhir Diperbarui')->dateTime('d M Y H:i'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
             ]);
     }
 

@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\JenisSuratResource\Pages;
 use App\Models\JenisSurat;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,9 +17,9 @@ class JenisSuratResource extends Resource
 {
     protected static ?string $model = JenisSurat::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-folder-open';
 
-    protected static ?string $navigationGroup = 'Master Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Master Data';
 
     protected static ?string $navigationLabel = 'Jenis Surat';
 
@@ -32,11 +34,11 @@ class JenisSuratResource extends Resource
         return Auth::user()?->isAdmin() ?? false;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Informasi Jenis Surat')
+                Section::make('Informasi Jenis Surat')
                     ->schema([
                         Forms\Components\TextInput::make('kode')
                             ->label('Kode Surat')
@@ -112,8 +114,8 @@ class JenisSuratResource extends Resource
                     ->label('Status Aktif'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ]);
     }
 

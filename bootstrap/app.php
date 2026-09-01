@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Redirect pengguna yang belum login ke halaman login portal warga
+        $middleware->redirectGuestsTo(fn () => route('warga.login'));
+        $middleware->redirectUsersTo(fn () => route('warga.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

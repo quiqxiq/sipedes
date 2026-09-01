@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class PermohonanChart extends ChartWidget
 {
-    protected static ?string $heading = 'Distribusi Status Permohonan Surat';
+    protected ?string $heading = 'Distribusi Status Permohonan Surat';
 
     protected function getData(): array
     {
