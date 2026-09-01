@@ -15,7 +15,7 @@ class ProfilDesaSeeder extends Seeder
         ProfilDesa::updateOrCreate(
             ['id' => 1],
             [
-                'nama_desa' => 'Desa Rombiyah Barat',
+                'nama_desa' => 'Rombiyah Barat',
                 'kepala_desa' => 'Farhah',
                 'kecamatan' => 'Ganding',
                 'kabupaten' => 'Sumenep',

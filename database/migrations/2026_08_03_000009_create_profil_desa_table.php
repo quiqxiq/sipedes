@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('profil_desa', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_desa')->default('Desa Rombiyah Barat');
+            $table->string('nama_desa')->default('Rombiyah Barat');
             $table->string('kepala_desa')->default('Farhah');
             $table->string('kecamatan')->default('Ganding');
             $table->string('kabupaten')->default('Sumenep');
