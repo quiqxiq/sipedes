@@ -21,12 +21,58 @@ class InformasiDesaController extends Controller
         return view('warga.informasi.index', compact('profil', 'beritaList', 'programBantuan', 'perangkatDesa'));
     }
 
-    public function bansos()
+    public function bansos(Request $request)
     {
         $profil = ProfilDesa::first();
         $programBantuan = ProgramBantuan::latest()->get();
 
-        return view('warga.informasi.bansos', compact('profil', 'programBantuan'));
+        $queryNik = trim($request->input('nik', ''));
+        $queryNama = trim($request->input('nama', ''));
+        $queryDusun = $request->input('dusun', '');
+        $queryKategori = $request->input('kategori', '');
+
+        $hasSearched = $request->filled('nik') || $request->filled('nama') || $request->filled('dusun') || $request->filled('kategori');
+        $hasilPencarian = collect();
+
+        if ($hasSearched) {
+            $penerimaQuery = \App\Models\PenerimaBantuan::with('programBantuan');
+
+            if (!empty($queryNik)) {
+                $penerimaQuery->where('nik', $queryNik);
+            }
+
+            if (!empty($queryNama)) {
+                $penerimaQuery->where('nama_penerima', 'like', "%{$queryNama}%");
+            }
+
+            if (!empty($queryDusun)) {
+                $penerimaQuery->where('dusun', $queryDusun);
+            }
+
+            if (!empty($queryKategori)) {
+                $penerimaQuery->whereHas('programBantuan', function ($q) use ($queryKategori) {
+                    $q->where('kategori', $queryKategori);
+                })->orWhere('jenis_bansos', 'like', "%{$queryKategori}%");
+            }
+
+            $hasilPencarian = $penerimaQuery->latest()->get();
+        }
+
+        $totalKpm = \App\Models\PenerimaBantuan::count();
+        $totalProgram = $programBantuan->count();
+
+        return view('warga.informasi.bansos', compact(
+            'profil',
+            'programBantuan',
+            'hasSearched',
+            'hasilPencarian',
+            'queryNik',
+            'queryNama',
+            'queryDusun',
+            'queryKategori',
+            'totalKpm',
+            'totalProgram'
+        ));
     }
 
     public function beritaDetail($slug)

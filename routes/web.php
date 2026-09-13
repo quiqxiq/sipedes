@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengajuan', PengajuanSuratWizard::class)->name('warga.pengajuan.wizard');
     Route::get('/riwayat', [PermohonanWargaController::class, 'index'])->name('warga.riwayat.index');
     Route::get('/riwayat/{id}', [PermohonanWargaController::class, 'show'])->name('warga.riwayat.show');
+    Route::post('/riwayat/{id}/batal', [PermohonanWargaController::class, 'cancel'])->name('warga.riwayat.cancel');
 
     // Layanan Pengaduan & Aspirasi Warga
     Route::get('/lapor', [PengaduanController::class, 'create'])->name('warga.pengaduan.create');

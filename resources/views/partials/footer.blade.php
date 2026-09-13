@@ -4,16 +4,14 @@
             <!-- Brand & Address -->
             <div class="space-y-3">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-bold">
-                        S
-                    </div>
-                    <span class="text-lg font-bold text-white tracking-wide">SIPEDES Rombiyah Barat</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo Desa Rombiya Barat" class="w-9 h-9 object-contain rounded-lg">
+                    <span class="text-lg font-bold text-white tracking-wide">SIPEDES Rombiya Barat</span>
                 </div>
                 <p class="text-xs text-slate-400 leading-relaxed">
-                    Sistem Informasi Pelayanan Desa & Portal Administrasi Warga Berbasis Artificial Intelligence RAG (Dify AI).
+                    Sistem Pelayanan Desa (SIPEDES) & Portal Administrasi Warga Berbasis Artificial Intelligence RAG (Dify AI).
                 </p>
                 <p class="text-xs text-slate-400">
-                    Kantor Balai Desa Rombiyah Barat, Jl. Raya Ganding - Rombiyah Barat No. 01, Kec. Ganding, Kab. Sumenep, Jawa Timur 69462.
+                    Kantor Balai Desa Rombiya Barat, Jl. Raya Ganding - Rombiya Barat No. 01, Kec. Ganding, Kab. Sumenep, Jawa Timur 69462.
                 </p>
             </div>
 
@@ -23,7 +21,7 @@
                 <ul class="space-y-2 text-xs">
                     <li><a href="{{ route('warga.pengajuan.wizard') }}" class="hover:text-emerald-400 transition-colors">Pelayanan Surat Online</a></li>
                     <li><a href="{{ route('warga.pengaduan.create') }}" class="hover:text-emerald-400 transition-colors">Lapor Pengaduan & Aspirasi Warga</a></li>
-                    <li><a href="{{ route('warga.informasi.bansos') }}" class="hover:text-emerald-400 transition-colors">Informasi Bansos (BLT-DD & Pangan)</a></li>
+                    <li><a href="{{ route('warga.informasi.bansos') }}" class="hover:text-emerald-400 transition-colors">Cek Penerima Bansos (PKH, BLT-DD, Beras CBP)</a></li>
                     <li><a href="{{ route('warga.informasi.index') }}" class="hover:text-emerald-400 transition-colors">Struktur Pamong 5 Dusun & Warta Desa</a></li>
                 </ul>
             </div>
@@ -45,7 +43,7 @@
         </div>
 
         <div class="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500">
-            <p>&copy; {{ date('Y') }} Pemerintah Desa Rombiyah Barat. Hak Cipta Dilindungi Undang-Undang.</p>
+            <p>&copy; {{ date('Y') }} DESA ROMBIYA Barat. Hak Cipta Dilindungi Undang-Undang.</p>
             <p class="mt-2 md:mt-0">Powered by Laravel 13 & Dify AI RAG</p>
         </div>
     </div>

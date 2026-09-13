@@ -1,0 +1,21 @@
+services:
+  wa-gateway:
+    build:
+      context: ./docker/wa-gateway
+      dockerfile: Dockerfile
+    container_name: sipedes-wa-gateway
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    environment:
+      - PORT=3100
+      - API_KEY=sipedes_secret_wa_2026
+      - STORE_PATH=/app/storages
+      - TZ=Asia/Jakarta
+    volumes:
+      - ./docker/wa-gateway/data:/app/storages
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3100/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3

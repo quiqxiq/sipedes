@@ -68,10 +68,54 @@ class JenisSuratResource extends Resource
                             ->rows(3)
                             ->columnSpanFull(),
 
-                        Forms\Components\TagsInput::make('syarat')
-                            ->label('Daftar Syarat Berkas Persyaratan')
-                            ->placeholder('Ketik nama syarat (misal: Fotokopi KTP) lalu tekan Enter')
-                            ->columnSpanFull(),
+                        Forms\Components\Repeater::make('syarat')
+                            ->label('Daftar Berkas Persyaratan yang Perlu Diunggah Warga')
+                            ->helperText('Admin dapat menambahkan form input file apa saja yang menjadi syarat. Setiap item di bawah ini akan otomatis menjadi input upload file terpisah bagi warga.')
+                            ->addActionLabel('+ Tambah Berkas Persyaratan')
+                            ->formatStateUsing(function ($state) {
+                                if (!is_array($state)) {
+                                    return [];
+                                }
+                                $formatted = [];
+                                foreach ($state as $item) {
+                                    if (is_string($item)) {
+                                        $formatted[] = [
+                                            'nama' => $item,
+                                            'wajib' => true,
+                                            'keterangan' => null,
+                                        ];
+                                    } elseif (is_array($item)) {
+                                        $formatted[] = [
+                                            'nama' => $item['nama'] ?? '',
+                                            'wajib' => isset($item['wajib']) ? (bool) $item['wajib'] : true,
+                                            'keterangan' => $item['keterangan'] ?? null,
+                                        ];
+                                    }
+                                }
+                                return $formatted;
+                            })
+                            ->schema([
+                                Forms\Components\TextInput::make('nama')
+                                    ->label('Nama Berkas Persyaratan')
+                                    ->placeholder('Contoh: Fotokopi KTP, Kartu Keluarga, Surat Pengantar RT')
+                                    ->required()
+                                    ->columnSpan(2),
+
+                                Forms\Components\Toggle::make('wajib')
+                                    ->label('Wajib Diunggah')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->columnSpan(1),
+
+                                Forms\Components\TextInput::make('keterangan')
+                                    ->label('Panduan / Catatan Khusus untuk Warga (Opsional)')
+                                    ->placeholder('Contoh: Format PDF/Foto jelas, tidak buram')
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull()
+                            ->defaultItems(1)
+                            ->collapsible(),
                     ])->columns(2),
             ]);
     }
@@ -97,8 +141,16 @@ class JenisSuratResource extends Resource
                     ->label('Estimasi Waktu')
                     ->sortable(),
 
-                Tables\Columns\TagsColumn::make('syarat')
-                    ->label('Daftar Syarat'),
+                Tables\Columns\TextColumn::make('syarat')
+                    ->label('Daftar Syarat')
+                    ->formatStateUsing(function ($state, JenisSurat $record) {
+                        $list = $record->persyaratan_list;
+                        if (empty($list)) {
+                            return '-';
+                        }
+                        return collect($list)->pluck('nama')->implode(', ');
+                    })
+                    ->limit(50),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Aktif')

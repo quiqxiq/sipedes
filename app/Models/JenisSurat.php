@@ -33,4 +33,37 @@ class JenisSurat extends Model
     {
         return $this->hasMany(PermohonanSurat::class, 'jenis_surat_id');
     }
+
+    /**
+     * Mengambil daftar berkas persyaratan dalam format terstruktur dan ternormalisasi.
+     */
+    public function getPersyaratanListAttribute(): array
+    {
+        $raw = $this->syarat ?? [];
+        if (!is_array($raw)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($raw as $item) {
+            if (is_string($item)) {
+                $trimmed = trim($item);
+                if ($trimmed !== '') {
+                    $normalized[] = [
+                        'nama' => $trimmed,
+                        'wajib' => true,
+                        'keterangan' => null,
+                    ];
+                }
+            } elseif (is_array($item) && !empty($item['nama'])) {
+                $normalized[] = [
+                    'nama' => trim($item['nama']),
+                    'wajib' => isset($item['wajib']) ? (bool) $item['wajib'] : true,
+                    'keterangan' => $item['keterangan'] ?? null,
+                ];
+            }
+        }
+
+        return $normalized;
+    }
 }

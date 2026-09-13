@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Warga;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendWhatsAppNotificationJob;
 use App\Models\AktivitasLog;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
@@ -72,11 +73,48 @@ class PengaduanController extends Controller
             'status' => 'menunggu',
         ]);
 
-        AktivitasLog::log(
-            Auth::user(),
+        AktivitasLog::catat(
+            Auth::id(),
+            'pengaduan',
             'kirim_pengaduan',
             "Warga " . Auth::user()->name . " mengirimkan laporan pengaduan {$kodeTiket} di {$validated['dusun']}"
         );
+
+        // 1. WhatsApp Alert ke Pamong / Petugas Balai Desa
+        $petugasPhone = config('whatsapp.petugas_phone');
+        if (!empty($petugasPhone)) {
+            SendWhatsAppNotificationJob::dispatch(
+                'pengaduan_masuk_petugas',
+                $petugasPhone,
+                [
+                    'kode_tiket' => $kodeTiket,
+                    'nama_pelapor' => Auth::user()->name,
+                    'dusun' => $validated['dusun'],
+                    'kategori' => $validated['kategori'],
+                    'judul_pengaduan' => $validated['judul'],
+                    'link_admin' => url('/admin/pengaduans/' . $pengaduan->id . '/edit'),
+                ],
+                'Petugas Pelayanan Desa',
+                $pengaduan->id
+            );
+        }
+
+        // 2. WhatsApp Tanda Terima ke Warga Pelapor
+        if (!empty(Auth::user()->telepon)) {
+            SendWhatsAppNotificationJob::dispatch(
+                'pengaduan_dibuat_warga',
+                Auth::user()->telepon,
+                [
+                    'nama_pelapor' => Auth::user()->name,
+                    'kode_tiket' => $kodeTiket,
+                    'judul_pengaduan' => $validated['judul'],
+                    'kategori' => $validated['kategori'],
+                    'tanggal_laporan' => now()->translatedFormat('d M Y H:i') . ' WIB',
+                ],
+                Auth::user()->name,
+                $pengaduan->id
+            );
+        }
 
         return redirect()->route('warga.pengaduan.show', $pengaduan->id)
             ->with('success', "Laporan pengaduan berhasil dikirim! Nomor tiket Anda: {$kodeTiket}");

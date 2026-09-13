@@ -10,6 +10,7 @@ use App\Models\PerangkatDesa;
 use App\Models\PermohonanSurat;
 use App\Models\ProfilDesa;
 use App\Models\ProgramBantuan;
+use App\Models\User;
 
 class LandingController extends Controller
 {
@@ -25,6 +26,10 @@ class LandingController extends Controller
         $totalPengaduanSelesai = Pengaduan::where('status', 'selesai')->count();
         $totalPengaduan = Pengaduan::count();
 
+        // Data warga & pengguna terdaftar di dashboard secara otomatis / real-time
+        $totalWargaTerdaftar = User::where('role', 'warga')->count();
+        $totalPengguna = User::count();
+
         return view('warga.landing', compact(
             'profil',
             'jenisSurat',
@@ -33,7 +38,9 @@ class LandingController extends Controller
             'perangkatDesa',
             'totalSuratDisetujui',
             'totalPengaduanSelesai',
-            'totalPengaduan'
+            'totalPengaduan',
+            'totalWargaTerdaftar',
+            'totalPengguna'
         ));
     }
 }

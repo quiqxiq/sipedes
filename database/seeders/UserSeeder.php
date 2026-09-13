@@ -15,12 +15,12 @@ class UserSeeder extends Seeder
     {
         // 1. Administrator
         User::firstOrCreate(
-            ['email' => 'admin@rombiyahbarat.desa.id'],
+            ['email' => 'admin@rombiyabarat.desa.id'],
             [
-                'name' => 'Administrator Desa Rombiyah Barat',
+                'name' => 'Administrator Desa Rombiya Barat',
                 'nik' => '3529100101850001',
                 'telepon' => '081234567890',
-                'alamat' => 'Kantor Balai Desa Rombiyah Barat, Kec. Ganding',
+                'alamat' => 'Kantor Balai Desa Rombiya Barat, Kec. Ganding',
                 'role' => 'admin',
                 'is_active' => true,
                 'password' => Hash::make('password'),
@@ -29,12 +29,12 @@ class UserSeeder extends Seeder
 
         // 2. Petugas Desa
         User::firstOrCreate(
-            ['email' => 'petugas@rombiyahbarat.desa.id'],
+            ['email' => 'petugas@rombiyabarat.desa.id'],
             [
                 'name' => 'Petugas Pelayanan Desa',
                 'nik' => '3529100202900002',
                 'telepon' => '081234567891',
-                'alamat' => 'Kantor Balai Desa Rombiyah Barat, Kec. Ganding',
+                'alamat' => 'Kantor Balai Desa Rombiya Barat, Kec. Ganding',
                 'role' => 'petugas',
                 'is_active' => true,
                 'password' => Hash::make('password'),
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
                 'name' => 'Budi Santoso',
                 'nik' => '3529101508850003',
                 'telepon' => '085712345678',
-                'alamat' => 'Dusun Kebunan, RT 002 RW 002, Rombiyah Barat',
+                'alamat' => 'Dusun Kebunan, RT 002 RW 002, Rombiya Barat',
                 'role' => 'warga',
                 'is_active' => true,
                 'password' => Hash::make('password'),

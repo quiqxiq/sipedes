@@ -59,6 +59,8 @@
                                             <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">Disetujui</span>
                                         @elseif($item->status == 'butuh_koreksi')
                                             <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-800">Perlu Koreksi</span>
+                                        @elseif($item->status == 'dibatalkan')
+                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700">Dibatalkan</span>
                                         @else
                                             <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800">Ditolak</span>
                                         @endif

@@ -4,14 +4,10 @@
             <!-- Brand Logo -->
             <div class="flex items-center gap-3">
                 <a href="{{ route('warga.landing') }}" class="flex items-center gap-2.5 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h5m-5 0v-4m0 4h5m-5 0v-4m0 0h-5m5 0V7"></path>
-                        </svg>
-                    </div>
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo Desa Rombiya Barat" class="w-10 h-10 object-contain rounded-xl group-hover:scale-105 transition-transform duration-200">
                     <div class="flex flex-col">
                         <span class="font-bold text-lg text-slate-800 leading-snug group-hover:text-emerald-600 transition-colors">SIPEDES</span>
-                        <span class="text-xs text-slate-500 font-medium">Rombiyah Barat</span>
+                        <span class="text-xs text-slate-500 font-medium">Rombiya Barat</span>
                     </div>
                 </a>
             </div>
@@ -21,6 +17,9 @@
                 <a href="{{ route('warga.landing') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Beranda
                 </a>
+                <a href="{{ route('warga.landing') }}#demografi" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                    Data Kependudukan
+                </a>
                 <a href="{{ route('warga.landing') }}#layanan" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Layanan Surat
                 </a>
@@ -28,7 +27,7 @@
                     Lapor Pengaduan
                 </a>
                 <a href="{{ route('warga.informasi.bansos') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
-                    Bansos & Program
+                    Cek Bansos
                 </a>
                 <a href="{{ route('warga.informasi.index') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Warta & Pamong

@@ -24,7 +24,7 @@ class ChatbotWidget extends Component
         // Initial greeting message from Assistant
         $this->messages[] = [
             'sender' => 'bot',
-            'text' => 'Halo! Saya Asisten AI Desa Rombiyah Barat 🤖. Ada yang bisa saya bantu terkait syarat surat, SOP pelayanan, atau informasi desa?',
+            'text' => 'Halo! Saya Asisten AI Desa Rombiya Barat 🤖. Ada yang bisa saya bantu terkait syarat surat, SOP pelayanan, atau informasi desa?',
             'sources' => [],
             'time' => date('H:i'),
         ];

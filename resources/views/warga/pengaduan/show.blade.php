@@ -67,7 +67,7 @@
                         <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-xs text-emerald-900 space-y-2">
                             <p class="whitespace-pre-line leading-relaxed font-medium">{{ $pengaduan->tanggapan_petugas }}</p>
                             <div class="text-[11px] text-emerald-700 pt-2 border-t border-emerald-200/60 flex items-center justify-between">
-                                <span>Petugas: {{ $pengaduan->petugas->name ?? 'Pamong Desa Rombiyah Barat' }}</span>
+                                <span>Petugas: {{ $pengaduan->petugas->name ?? 'Pamong Desa Rombiya Barat' }}</span>
                                 <span>{{ $pengaduan->ditanggapi_at ? $pengaduan->ditanggapi_at->format('d M Y, H:i') : '' }}</span>
                             </div>
                         </div>

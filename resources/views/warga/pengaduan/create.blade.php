@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Lapor Pengaduan & Aspirasi Warga — Desa Rombiyah Barat')
+@section('title', 'Lapor Pengaduan & Aspirasi Warga — Desa Rombiya Barat')
 
 @section('content')
 <div class="min-h-screen bg-slate-50 py-10">
@@ -13,7 +13,7 @@
             </a>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Lapor Pengaduan & Aspirasi Warga</h1>
             <p class="text-xs sm:text-sm text-slate-600 mt-1">
-                Sampaikan aspirasi atau keluhan mengenai fasilitas umum, irigasi sawah, pupuk, jalan dusun, atau bansos di wilayah Desa Rombiyah Barat, Kec. Ganding.
+                Sampaikan aspirasi atau keluhan mengenai fasilitas umum, irigasi sawah, pupuk, jalan dusun, atau bansos di wilayah Desa Rombiya Barat, Kec. Ganding.
             </p>
         </div>
 
@@ -87,11 +87,52 @@
                 </div>
 
                 <!-- Upload Foto -->
-                <div>
-                    <label for="foto_lampiran" class="block text-xs font-bold text-slate-700 mb-1">Foto Bukti Lapangan (Opsional, Maks 3MB)</label>
-                    <input id="foto_lampiran" name="foto_lampiran" type="file" accept="image/png,image/jpeg,image/jpg"
-                        class="w-full px-4 py-2 rounded-xl border border-slate-300 text-xs file:mr-4 file:py-1.5 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 @error('foto_lampiran') border-rose-500 @enderror">
-                    <p class="text-[11px] text-slate-500 mt-1">Unggah foto jalan rusak, saluran irigasi, atau kondisi terkait agar petugas dapat memverifikasi lebih cepat.</p>
+                <div x-data="{ 
+                        fileName: '', 
+                        fileSize: '',
+                        handleFileChange(e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                this.fileName = file.name;
+                                this.fileSize = Math.round(file.size / 1024) + ' KB';
+                            } else {
+                                this.fileName = '';
+                                this.fileSize = '';
+                            }
+                        }
+                    }">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Foto Bukti Lapangan (Opsional, Maks 3MB)</label>
+                    <label for="foto_lampiran" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 bg-white rounded-xl border {{ (isset($errors) && $errors->has('foto_lampiran')) ? 'border-rose-400 ring-1 ring-rose-300' : 'border-slate-300 hover:border-emerald-500' }} hover:bg-emerald-50/20 transition-all cursor-pointer group shadow-2xs">
+                        <input id="foto_lampiran" 
+                               name="foto_lampiran" 
+                               type="file" 
+                               accept="image/png,image/jpeg,image/jpg"
+                               @change="handleFileChange($event)"
+                               class="sr-only">
+
+                        <span class="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-600 group-hover:bg-emerald-700 text-white font-semibold text-xs transition-colors shrink-0 shadow-xs">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            <span>Pilih Berkas</span>
+                        </span>
+
+                        <div class="flex-1 min-w-0 text-xs">
+                            <template x-if="fileName">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-medium text-emerald-800 truncate flex items-center gap-1.5">
+                                        <span>📷</span>
+                                        <span class="truncate" x-text="fileName"></span>
+                                    </span>
+                                    <span class="text-slate-400 font-mono text-[11px] shrink-0 ml-1" x-text="fileSize"></span>
+                                </div>
+                            </template>
+                            <template x-if="!fileName">
+                                <span class="text-slate-400 font-normal">Belum ada berkas dipilih (Format: JPG, JPEG, PNG - Maks 3MB)</span>
+                            </template>
+                        </div>
+                    </label>
+                    <p class="text-[11px] text-slate-500 mt-1.5">Unggah foto jalan rusak, saluran irigasi, atau kondisi terkait agar petugas dapat memverifikasi lebih cepat.</p>
                     @error('foto_lampiran')
                         <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
                     @enderror

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Warta Desa & Struktur Pamong — Desa Rombiyah Barat')
+@section('title', 'Warta Desa & Struktur Pamong — Desa Rombiya Barat')
 
 @section('content')
 <div class="min-h-screen bg-slate-50 py-10">
@@ -10,8 +10,8 @@
         <div class="max-w-3xl mb-10">
             <span class="text-xs font-bold tracking-wider text-emerald-600 uppercase">Pusat Informasi Publik</span>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Warta Desa & Struktur Pamong</h1>
-            <p class="text-xs sm:text-sm text-slate-600 mt-2">
-                Publikasi agenda musyawarah, jadwal posyandu 5 dusun, unit usaha BUMDes Kencana, dan struktur perangkat Desa Rombiyah Barat, Kec. Ganding, Kab. Sumenep.
+            <p class="text-xs text-sm text-slate-600 mt-2">
+                Publikasi agenda musyawarah, jadwal posyandu 5 dusun, unit usaha BUMDes Kencana, dan struktur perangkat Desa Rombiya Barat, Kec. Ganding, Kab. Sumenep.
             </p>
         </div>
 
@@ -56,7 +56,7 @@
             <div class="text-center max-w-2xl mx-auto mb-12">
                 <span class="text-xs font-bold tracking-wider text-emerald-600 uppercase">Pemerintahan Desa</span>
                 <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">Bagan Struktur Hierarki Pamong 5 Dusun</h2>
-                <p class="text-xs text-slate-600 mt-1">Tata kelola kepemimpinan Kepala Desa {{ $profil->kepala_desa ?? 'Farhah' }}, Sekretariat, dan 5 Kepala Dusun di Desa {{ $profil->nama_desa ?? 'Rombiyah Barat' }}, {{ $profil->kecamatan ?? 'Ganding' }}, {{ $profil->kabupaten ?? 'Sumenep' }}.</p>
+                <p class="text-xs text-slate-600 mt-1">Tata kelola kepemimpinan Kepala Desa {{ $profil->kepala_desa ?? 'Farhah' }}, Sekretariat, dan 5 Kepala Dusun di Desa {{ $profil->nama_desa ?? 'Rombiya Barat' }}, {{ $profil->kecamatan ?? 'Ganding' }}, {{ $profil->kabupaten ?? 'Sumenep' }}.</p>
             </div>
 
             @php
@@ -155,6 +155,49 @@
                 </div>
                 @endif
 
+            </div>
+        </div>
+
+        <!-- Info Kantor Balai Desa -->
+        <div class="mt-12 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+                <div class="lg:col-span-5 relative min-h-[250px] lg:min-h-[320px] overflow-hidden group">
+                    <img src="{{ asset('images/balai_desa.jpeg') }}" alt="Balai Desa Rombiya Barat" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 text-white">
+                        <span class="text-[10px] font-bold uppercase tracking-wider bg-emerald-600 px-2.5 py-0.5 rounded-md inline-block mb-1">Gedung Pelayanan</span>
+                        <h4 class="text-base font-bold">Balai Desa Rombiya Barat</h4>
+                        <p class="text-[11px] text-slate-200">Kecamatan Ganding, Kabupaten Sumenep</p>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 uppercase">Kantor Balai Desa</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Pusat Layanan Warga & Jam Operasional</h3>
+                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                            {{ $profil->kontak['alamat_kantor'] ?? 'Jl. Raya Ganding - Rombiya Barat No. 01, Kec. Ganding, Kab. Sumenep, Jawa Timur 69462' }}
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                            <span class="font-bold text-slate-800 block mb-1">Jam Layanan Kantor:</span>
+                            <p class="text-slate-600">Senin - Kamis: 08:00 - 15:00 WIB</p>
+                            <p class="text-slate-600">Jumat: 08:00 - 11:30 WIB</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
+                            <span class="font-bold block mb-1">Layanan Digital (SIPEDES):</span>
+                            <p class="text-emerald-800">Online 24 Jam Nonstop untuk pengajuan surat & lapor pengaduan.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-between">
+                        <span class="text-xs text-slate-500">Kontak WhatsApp: <strong>{{ $profil->kontak['whatsapp'] ?? '082334567890' }}</strong></span>
+                        <a href="{{ route('warga.pengajuan.wizard') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-sm transition-all">
+                            Ajukan Surat &rarr;
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 

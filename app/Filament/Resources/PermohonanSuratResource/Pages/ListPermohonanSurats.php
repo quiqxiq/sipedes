@@ -30,6 +30,9 @@ class ListPermohonanSurats extends ListRecords
             'ditolak' => Tab::make('Ditolak')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'ditolak'))
                 ->badge(fn () => static::getResource()::getEloquentQuery()->where('status', 'ditolak')->count()),
+            'dibatalkan' => Tab::make('Dibatalkan')
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'dibatalkan'))
+                ->badge(fn () => static::getResource()::getEloquentQuery()->where('status', 'dibatalkan')->count()),
         ];
     }
 }

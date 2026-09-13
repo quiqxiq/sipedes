@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Riwayat Pengaduan Saya — Desa Rombiyah Barat')
+@section('title', 'Riwayat Pengaduan Saya — Desa Rombiya Barat')
 
 @section('content')
 <div class="min-h-screen bg-slate-50 py-10">
@@ -9,7 +9,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-900">Riwayat Pengaduan & Aspirasi</h1>
-                <p class="text-xs text-slate-600 mt-1">Pantau tindak lanjut laporan keluhan dan aspirasi Anda oleh Pemerintah Desa Rombiyah Barat.</p>
+                <p class="text-xs text-slate-600 mt-1">Pantau tindak lanjut laporan keluhan dan aspirasi Anda oleh DESA ROMBIYA Barat.</p>
             </div>
             <a href="{{ route('warga.pengaduan.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

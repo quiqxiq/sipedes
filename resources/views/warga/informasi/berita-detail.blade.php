@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $berita->judul . ' — Desa Rombiyah Barat')
+@section('title', $berita->judul . ' — Desa Rombiya Barat')
 
 @section('content')
 <div class="min-h-screen bg-slate-50 py-10">
@@ -38,7 +38,7 @@
             </div>
 
             <div class="pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                <span>Diterbitkan oleh: <strong>Pemerintah Desa Rombiyah Barat</strong></span>
+                <span>Diterbitkan oleh: <strong>DESA ROMBIYA Barat</strong></span>
                 <a href="{{ route('warga.informasi.index') }}" class="font-bold text-emerald-600 hover:underline">
                     Warta Lainnya &rarr;
                 </a>

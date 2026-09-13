@@ -12,16 +12,25 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $permohonanTerakhir = PermohonanSurat::with('jenisSurat')
-            ->where('user_id', $user->id)
+        $permohonanQuery = PermohonanSurat::where('user_id', $user->id);
+        $totalPermohonan = (clone $permohonanQuery)->count();
+        $totalProses = (clone $permohonanQuery)->whereIn('status', ['diajukan', 'diproses'])->count();
+        $totalDisetujui = (clone $permohonanQuery)->where('status', 'disetujui')->count();
+
+        $permohonanTerakhir = (clone $permohonanQuery)
+            ->with('jenisSurat')
             ->latest()
             ->take(5)
             ->get();
 
-        $totalPermohonan = PermohonanSurat::where('user_id', $user->id)->count();
-        $totalProses = PermohonanSurat::where('user_id', $user->id)->whereIn('status', ['diajukan', 'diproses'])->count();
-        $totalDisetujui = PermohonanSurat::where('user_id', $user->id)->where('status', 'disetujui')->count();
+        $bansosUser = \App\Models\PenerimaBantuan::with('programBantuan')
+            ->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('nik', $user->nik);
+            })
+            ->latest()
+            ->get();
 
-        return view('warga.dashboard', compact('user', 'permohonanTerakhir', 'totalPermohonan', 'totalProses', 'totalDisetujui'));
+        return view('warga.dashboard', compact('user', 'permohonanTerakhir', 'totalPermohonan', 'totalProses', 'totalDisetujui', 'bansosUser'));
     }
 }

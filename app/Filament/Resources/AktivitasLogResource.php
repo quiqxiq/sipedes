@@ -76,6 +76,7 @@ class AktivitasLogResource extends Resource
                     ->options([
                         'auth' => 'Autentikasi',
                         'surat' => 'Permohonan Surat',
+                        'pengaduan' => 'Pengaduan Warga',
                         'chatbot' => 'Chatbot AI',
                         'knowledge' => 'Dokumen Pengetahuan',
                         'user' => 'Manajemen User',

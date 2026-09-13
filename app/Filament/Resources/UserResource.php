@@ -49,9 +49,9 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('nik')
                             ->label('NIK (Nomor Induk Kependudukan)')
                             ->placeholder('16 Digit NIK')
-                            ->numeric()
-                            ->length(16)
-                            ->rules(['digits:16'])
+                            ->maxLength(16)
+                            ->minLength(16)
+                            ->rules(['regex:/^[0-9]{16}$/'])
                             ->nullable()
                             ->unique(ignoreRecord: true),
 
@@ -89,8 +89,8 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('password')
                             ->label('Kata Sandi (Password)')
                             ->password()
-                            ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
-                            ->dehydrated(fn ($state) => filled($state))
+                            ->revealable()
+                            ->dehydrated(fn (?string $state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->columnSpanFull(),
                     ])->columns(2),

@@ -11,7 +11,7 @@ class WargaSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * Data warga dari data.md (data kependudukan Desa Rombiyah Barat).
+     * Data warga dari data.md (data kependudukan Desa Rombiya Barat).
      * Disesuaikan dengan kolom tabel users yang tersedia:
      * - NIK        -> nik
      * - Nama       -> name

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PermohonanSuratResource\Pages;
+use App\Jobs\SendWhatsAppNotificationJob;
 use App\Models\AktivitasLog;
 use App\Models\Notifikasi;
 use App\Models\PermohonanSurat;
@@ -66,7 +67,9 @@ class PermohonanSuratResource extends Resource
                                 'disetujui' => 'Disetujui',
                                 'ditolak' => 'Ditolak',
                                 'butuh_koreksi' => 'Butuh Koreksi',
+                                'dibatalkan' => 'Dibatalkan',
                             ])
+
                             ->required(),
 
                         Forms\Components\Select::make('petugas_id')
@@ -122,6 +125,7 @@ class PermohonanSuratResource extends Resource
                         'disetujui' => 'success',
                         'ditolak' => 'danger',
                         'butuh_koreksi' => 'amber',
+                        'dibatalkan' => 'gray',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
@@ -130,6 +134,7 @@ class PermohonanSuratResource extends Resource
                         'disetujui' => 'Disetujui',
                         'ditolak' => 'Ditolak',
                         'butuh_koreksi' => 'Butuh Koreksi',
+                        'dibatalkan' => 'Dibatalkan',
                         default => $state,
                     }),
 
@@ -151,6 +156,7 @@ class PermohonanSuratResource extends Resource
                         'disetujui' => 'Disetujui',
                         'ditolak' => 'Ditolak',
                         'butuh_koreksi' => 'Butuh Koreksi',
+                        'dibatalkan' => 'Dibatalkan',
                     ]),
 
                 Tables\Filters\SelectFilter::make('jenis_surat_id')
@@ -158,104 +164,172 @@ class PermohonanSuratResource extends Resource
                     ->label('Jenis Surat'),
             ])
             ->actions([
-                Actions\ViewAction::make(),
-                Actions\EditAction::make(),
+                Actions\ActionGroup::make([
+                    Actions\ViewAction::make()
+                        ->label('Lihat Detail'),
 
-                Actions\Action::make('setujui')
-                    ->label('Setujui & Proses')
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->visible(fn (PermohonanSurat $record) => in_array($record->status, ['diajukan', 'diproses', 'butuh_koreksi']))
-                    ->form([
-                        Forms\Components\Textarea::make('catatan_petugas')
-                            ->label('Catatan Tambahan (Opsional)'),
-                    ])
-                    ->action(function (PermohonanSurat $record, array $data): void {
-                        $record->update([
-                            'status' => 'disetujui',
-                            'petugas_id' => Auth::id(),
-                            'catatan_petugas' => $data['catatan_petugas'] ?? 'Permohonan surat disetujui.',
-                            'tanggal_selesai' => now(),
-                        ]);
+                    Actions\Action::make('setujui')
+                        ->label('Setujui & Proses')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->visible(fn (PermohonanSurat $record) => in_array($record->status, ['diajukan', 'diproses', 'butuh_koreksi']))
+                        ->form([
+                            Forms\Components\Textarea::make('catatan_petugas')
+                                ->label('Catatan Tambahan (Opsional)'),
+                        ])
+                        ->action(function (PermohonanSurat $record, array $data): void {
+                            $record->update([
+                                'status' => 'disetujui',
+                                'petugas_id' => Auth::id(),
+                                'catatan_petugas' => $data['catatan_petugas'] ?? 'Permohonan surat disetujui.',
+                                'tanggal_selesai' => now(),
+                            ]);
 
-                        Notifikasi::create([
-                            'user_id' => $record->user_id,
-                            'permohonan_id' => $record->id,
-                            'judul' => 'Permohonan Surat Disetujui',
-                            'pesan' => "Permohonan {$record->jenisSurat?->nama} (No: {$record->nomor_permohonan}) telah disetujui dan siap diunduh.",
-                        ]);
+                            Notifikasi::create([
+                                'user_id' => $record->user_id,
+                                'permohonan_id' => $record->id,
+                                'judul' => 'Permohonan Surat Disetujui',
+                                'pesan' => "Permohonan {$record->jenisSurat?->nama} (No: {$record->nomor_permohonan}) telah disetujui dan siap diunduh.",
+                            ]);
 
-                        AktivitasLog::catat(Auth::id(), 'surat', 'verifikasi', "Menyetujui permohonan surat #{$record->nomor_permohonan}");
+                            // Kirim Notifikasi WhatsApp ke Pemohon
+                            $user = $record->user;
+                            if ($user && !empty($user->telepon)) {
+                                SendWhatsAppNotificationJob::dispatch(
+                                    'surat_disetujui_warga',
+                                    $user->telepon,
+                                    [
+                                        'nama_pemohon' => $user->name,
+                                        'jenis_surat' => $record->jenisSurat?->nama,
+                                        'nomor_permohonan' => $record->nomor_permohonan,
+                                        'tanggal_selesai' => now()->translatedFormat('d M Y H:i') . ' WIB',
+                                        'link_download_pdf' => route('warga.surat.pdf', $record->id),
+                                    ],
+                                    $user->name,
+                                    $record->id
+                                );
+                            }
 
-                        Notification::make()
-                            ->title('Permohonan berhasil disetujui')
-                            ->success()
-                            ->send();
-                    }),
+                            AktivitasLog::catat(Auth::id(), 'surat', 'verifikasi', "Menyetujui permohonan surat #{$record->nomor_permohonan}");
 
-                Actions\Action::make('minta_koreksi')
-                    ->label('Minta Koreksi')
-                    ->icon('heroicon-o-arrow-path')
-                    ->color('warning')
-                    ->visible(fn (PermohonanSurat $record) => in_array($record->status, ['diajukan', 'diproses']))
-                    ->form([
-                        Forms\Components\Textarea::make('catatan_petugas')
-                            ->label('Alasan / Bagian yang Perlu Dikoreksi')
-                            ->required(),
-                    ])
-                    ->action(function (PermohonanSurat $record, array $data): void {
-                        $record->update([
-                            'status' => 'butuh_koreksi',
-                            'petugas_id' => Auth::id(),
-                            'catatan_petugas' => $data['catatan_petugas'],
-                        ]);
+                            Notification::make()
+                                ->title('Permohonan berhasil disetujui')
+                                ->success()
+                                ->send();
+                        }),
 
-                        Notifikasi::create([
-                            'user_id' => $record->user_id,
-                            'permohonan_id' => $record->id,
-                            'judul' => 'Koreksi Berkas Permohonan Surat',
-                            'pesan' => "Permohonan {$record->jenisSurat?->nama} membutuhkan koreksi: {$data['catatan_petugas']}",
-                        ]);
+                    Actions\Action::make('minta_koreksi')
+                        ->label('Minta Koreksi')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning')
+                        ->visible(fn (PermohonanSurat $record) => in_array($record->status, ['diajukan', 'diproses']))
+                        ->form([
+                            Forms\Components\Textarea::make('catatan_petugas')
+                                ->label('Alasan / Bagian yang Perlu Dikoreksi')
+                                ->required(),
+                        ])
+                        ->action(function (PermohonanSurat $record, array $data): void {
+                            $record->update([
+                                'status' => 'butuh_koreksi',
+                                'petugas_id' => Auth::id(),
+                                'catatan_petugas' => $data['catatan_petugas'],
+                            ]);
 
-                        AktivitasLog::catat(Auth::id(), 'surat', 'minta_koreksi', "Meminta koreksi permohonan #{$record->nomor_permohonan}");
+                            Notifikasi::create([
+                                'user_id' => $record->user_id,
+                                'permohonan_id' => $record->id,
+                                'judul' => 'Koreksi Berkas Permohonan Surat',
+                                'pesan' => "Permohonan {$record->jenisSurat?->nama} membutuhkan koreksi: {$data['catatan_petugas']}",
+                            ]);
 
-                        Notification::make()
-                            ->title('Permohonan dikembalikan ke pemohon untuk koreksi')
-                            ->warning()
-                            ->send();
-                    }),
+                            // Kirim Notifikasi WhatsApp ke Pemohon
+                            $user = $record->user;
+                            if ($user && !empty($user->telepon)) {
+                                SendWhatsAppNotificationJob::dispatch(
+                                    'surat_koreksi_warga',
+                                    $user->telepon,
+                                    [
+                                        'nama_pemohon' => $user->name,
+                                        'jenis_surat' => $record->jenisSurat?->nama,
+                                        'nomor_permohonan' => $record->nomor_permohonan,
+                                        'catatan_petugas' => $data['catatan_petugas'],
+                                        'link_status' => route('warga.riwayat.show', $record->id),
+                                    ],
+                                    $user->name,
+                                    $record->id
+                                );
+                            }
 
-                Actions\Action::make('tolak')
-                    ->label('Tolak')
-                    ->icon('heroicon-o-x-circle')
-                    ->color('danger')
-                    ->visible(fn (PermohonanSurat $record) => in_array($record->status, ['diajukan', 'diproses', 'butuh_koreksi']))
-                    ->form([
-                        Forms\Components\Textarea::make('catatan_petugas')
-                            ->label('Alasan Penolakan')
-                            ->required(),
-                    ])
-                    ->action(function (PermohonanSurat $record, array $data): void {
-                        $record->update([
-                            'status' => 'ditolak',
-                            'petugas_id' => Auth::id(),
-                            'catatan_petugas' => $data['catatan_petugas'],
-                        ]);
+                            AktivitasLog::catat(Auth::id(), 'surat', 'minta_koreksi', "Meminta koreksi permohonan #{$record->nomor_permohonan}");
 
-                        Notifikasi::create([
-                            'user_id' => $record->user_id,
-                            'permohonan_id' => $record->id,
-                            'judul' => 'Permohonan Surat Ditolak',
-                            'pesan' => "Permohonan {$record->jenisSurat?->nama} ditolak. Alasan: {$data['catatan_petugas']}",
-                        ]);
+                            Notification::make()
+                                ->title('Permohonan dikembalikan ke pemohon untuk koreksi')
+                                ->warning()
+                                ->send();
+                        }),
 
-                        AktivitasLog::catat(Auth::id(), 'surat', 'penolakan', "Menolak permohonan #{$record->nomor_permohonan}");
+                    Actions\Action::make('tolak')
+                        ->label('Tolak')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->visible(fn (PermohonanSurat $record) => in_array($record->status, ['diajukan', 'diproses', 'butuh_koreksi']))
+                        ->form([
+                            Forms\Components\Textarea::make('catatan_petugas')
+                                ->label('Alasan Penolakan')
+                                ->required(),
+                        ])
+                        ->action(function (PermohonanSurat $record, array $data): void {
+                            $record->update([
+                                'status' => 'ditolak',
+                                'petugas_id' => Auth::id(),
+                                'catatan_petugas' => $data['catatan_petugas'],
+                            ]);
 
-                        Notification::make()
-                            ->title('Permohonan berhasil ditolak')
-                            ->danger()
-                            ->send();
-                    }),
+                            Notifikasi::create([
+                                'user_id' => $record->user_id,
+                                'permohonan_id' => $record->id,
+                                'judul' => 'Permohonan Surat Ditolak',
+                                'pesan' => "Permohonan {$record->jenisSurat?->nama} ditolak. Alasan: {$data['catatan_petugas']}",
+                            ]);
+
+                            // Kirim Notifikasi WhatsApp ke Pemohon
+                            $user = $record->user;
+                            if ($user && !empty($user->telepon)) {
+                                SendWhatsAppNotificationJob::dispatch(
+                                    'surat_ditolak_warga',
+                                    $user->telepon,
+                                    [
+                                        'nama_pemohon' => $user->name,
+                                        'jenis_surat' => $record->jenisSurat?->nama,
+                                        'nomor_permohonan' => $record->nomor_permohonan,
+                                        'catatan_petugas' => $data['catatan_petugas'],
+                                    ],
+                                    $user->name,
+                                    $record->id
+                                );
+                            }
+
+                            AktivitasLog::catat(Auth::id(), 'surat', 'penolakan', "Menolak permohonan #{$record->nomor_permohonan}");
+
+                            Notification::make()
+                                ->title('Permohonan berhasil ditolak')
+                                ->danger()
+                                ->send();
+                        }),
+
+                    Actions\Action::make('unduh_pdf')
+                        ->label('Unduh PDF')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->color('success')
+                        ->visible(fn (PermohonanSurat $record) => $record->status === 'disetujui')
+                        ->url(fn (PermohonanSurat $record): string => route('warga.surat.pdf', $record->id))
+                        ->openUrlInNewTab(),
+
+                    Actions\DeleteAction::make()
+                        ->label('Hapus Permohonan'),
+                ])
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->tooltip('Aksi Permohonan'),
             ]);
     }
 
@@ -279,13 +353,45 @@ class PermohonanSuratResource extends Resource
                                 'disetujui' => 'success',
                                 'ditolak' => 'danger',
                                 'butuh_koreksi' => 'amber',
+                                'dibatalkan' => 'gray',
                                 default => 'gray',
                             }),
                         Infolists\Components\TextEntry::make('petugas.name')->label('Petugas Verifikator')->placeholder('-'),
                         Infolists\Components\TextEntry::make('created_at')->label('Tanggal Pengajuan')->dateTime('d M Y H:i'),
                         Infolists\Components\TextEntry::make('catatan_petugas')->label('Catatan Petugas')->columnSpanFull()->placeholder('-'),
                     ])->columns(2),
+
+                Section::make('Berkas Persyaratan yang Diunggah Pemohon')
+                    ->schema([
+                        Infolists\Components\RepeatableEntry::make('dokumenPersyaratan')
+                            ->label('Daftar Berkas')
+                            ->schema([
+                                Infolists\Components\TextEntry::make('tipe_dokumen')
+                                    ->label('Jenis Berkas / Syarat')
+                                    ->weight('bold')
+                                    ->badge()
+                                    ->color('info')
+                                    ->placeholder('Persyaratan'),
+                                Infolists\Components\TextEntry::make('nama_file')
+                                    ->label('Nama File Asli'),
+                                Infolists\Components\TextEntry::make('path')
+                                    ->label('Aksi')
+                                    ->formatStateUsing(fn () => 'Buka / Unduh Berkas')
+                                    ->url(fn ($state) => asset('storage/' . $state))
+                                    ->openUrlInNewTab()
+                                    ->color('primary')
+                                    ->weight('bold'),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull()
+                            ->placeholder('Tidak ada berkas yang diunggah pemohon.'),
+                    ]),
             ]);
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function getPages(): array
@@ -293,7 +399,6 @@ class PermohonanSuratResource extends Resource
         return [
             'index' => Pages\ListPermohonanSurats::route('/'),
             'view' => Pages\ViewPermohonanSurat::route('/{record}'),
-            'edit' => Pages\EditPermohonanSurat::route('/{record}/edit'),
         ];
     }
 }

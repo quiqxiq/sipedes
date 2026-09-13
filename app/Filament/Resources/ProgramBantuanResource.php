@@ -32,7 +32,7 @@ class ProgramBantuanResource extends Resource
     {
         return $schema
             ->schema([
-                Section::make('Informasi Program Bantuan')
+                Section::make('Informasi Program Bantuan Sosial')
                     ->schema([
                         Forms\Components\TextInput::make('nama_program')
                             ->label('Nama Program Bantuan')
@@ -43,27 +43,34 @@ class ProgramBantuanResource extends Resource
                         Forms\Components\Select::make('kategori')
                             ->label('Kategori Bantuan')
                             ->options([
-                                'bansos_tunai' => 'Bansos Tunai (BLT)',
-                                'pangan_sembako' => 'Bantuan Pangan / Sembako',
-                                'pertanian_bibit' => 'Bantuan Pertanian & Pupuk',
+                                'pkh' => 'Program Keluarga Harapan (PKH)',
+                                'bansos_lansia' => 'Bansos Lansia & Disabilitas',
+                                'blt_dana_desa' => 'BLT Dana Desa (BLT-DD)',
+                                'beras_cbp' => 'Bantuan Beras CBP (10 Kg)',
+                                'bpnt_sembako' => 'BPNT / Program Sembako',
+                                'pertanian_pupuk' => 'Bantuan Pertanian & Pupuk Subsidi',
                                 'kesehatan_stunting' => 'PMT Gizi & Stunting Balita',
                             ])
                             ->required(),
 
                         Forms\Components\TextInput::make('sumber_dana')
                             ->label('Sumber Dana')
-                            ->placeholder('Contoh: Dana Desa (APBDes) TA 2026')
+                            ->placeholder('Contoh: Dana Desa (APBDes) TA 2026 / Kemensos RI')
                             ->required(),
 
                         Forms\Components\TextInput::make('besaran_bantuan')
                             ->label('Besaran / Bentuk Bantuan')
-                            ->placeholder('Contoh: Rp 300.000 / bulan atau 10 kg beras')
+                            ->placeholder('Contoh: 10 kg beras bulog atau Rp 300.000 / bulan')
                             ->required(),
 
                         Forms\Components\TextInput::make('kuota_penerima')
                             ->label('Kuota / Target KPM')
                             ->numeric()
                             ->nullable(),
+
+                        Forms\Components\TextInput::make('penanggung_jawab')
+                            ->label('Pamong / Petugas Penanggung Jawab')
+                            ->placeholder('Contoh: Zainal Abidin (Kasi Kesra) & 5 Kepala Dusun'),
 
                         Forms\Components\TextInput::make('tahun_anggaran')
                             ->label('Tahun Anggaran')
@@ -74,8 +81,8 @@ class ProgramBantuanResource extends Resource
                         Forms\Components\Select::make('status')
                             ->label('Status Penyaluran')
                             ->options([
-                                'dibuka' => 'Pendaftaran Dibuka',
-                                'proses_seleksi' => 'Proses Verifikasi / Seleksi',
+                                'dibuka' => 'Pendaftaran / Verifikasi',
+                                'proses_seleksi' => 'Proses Penetapan KPM',
                                 'penyaluran' => 'Sedang Disalurkan',
                                 'selesai' => 'Selesai Penyaluran',
                             ])
@@ -88,12 +95,20 @@ class ProgramBantuanResource extends Resource
                             ->required(),
 
                         Forms\Components\TagsInput::make('syarat_dokumen')
-                            ->label('Persyaratan Dokumen')
-                            ->placeholder('Tambah syarat dokumen...')
+                            ->label('Persyaratan Dokumen Saat Pengambilan')
+                            ->placeholder('Tambah syarat (KTP asli, KK, dll)...')
+                            ->columnSpanFull(),
+
+                        Forms\Components\FileUpload::make('foto_pengumuman')
+                            ->label('Foto / Scan Lembar Pengumuman Daftar Penerima')
+                            ->helperText('Upload foto scan daftar KPM atau poster pengumuman dari pamong desa')
+                            ->image()
+                            ->multiple()
+                            ->directory('bansos')
                             ->columnSpanFull(),
 
                         Forms\Components\Textarea::make('keterangan')
-                            ->label('Keterangan & Lokasi Pengambilan')
+                            ->label('Keterangan & Lokasi Pengambilan di Balai Desa')
                             ->rows(3)
                             ->columnSpanFull(),
                     ])->columns(2),
@@ -119,7 +134,7 @@ class ProgramBantuanResource extends Resource
                     ->label('Bentuk Bantuan'),
 
                 Tables\Columns\TextColumn::make('kuota_penerima')
-                    ->label('Kuota KPM')
+                    ->label('Target KPM')
                     ->formatStateUsing(fn ($state) => $state ? $state . ' KPM' : '-'),
 
                 Tables\Columns\TextColumn::make('status')
@@ -140,15 +155,18 @@ class ProgramBantuanResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('kategori')
                     ->options([
-                        'bansos_tunai' => 'Bansos Tunai (BLT)',
-                        'pangan_sembako' => 'Bantuan Pangan / Sembako',
-                        'pertanian_bibit' => 'Bantuan Pertanian & Pupuk',
+                        'pkh' => 'Program Keluarga Harapan (PKH)',
+                        'bansos_lansia' => 'Bansos Lansia & Disabilitas',
+                        'blt_dana_desa' => 'BLT Dana Desa (BLT-DD)',
+                        'beras_cbp' => 'Bantuan Beras CBP (10 Kg)',
+                        'bpnt_sembako' => 'BPNT / Program Sembako',
+                        'pertanian_pupuk' => 'Bantuan Pertanian & Pupuk Subsidi',
                         'kesehatan_stunting' => 'PMT Gizi & Stunting Balita',
                     ]),
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
-                        'dibuka' => 'Pendaftaran Dibuka',
-                        'proses_seleksi' => 'Proses Verifikasi',
+                        'dibuka' => 'Pendaftaran / Verifikasi',
+                        'proses_seleksi' => 'Proses Penetapan',
                         'penyaluran' => 'Sedang Disalurkan',
                         'selesai' => 'Selesai',
                     ]),

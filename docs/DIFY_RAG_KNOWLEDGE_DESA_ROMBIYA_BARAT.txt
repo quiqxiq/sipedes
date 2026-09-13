@@ -1,0 +1,325 @@
+BASIS PENGETAHUAN RESMI (RAG KNOWLEDGE BASE)
+SISTEM INFORMASI PELAYANAN DESA ROMBIYAH BARAT (SIPEDES)
+KECAMATAN GANDING, KABUPATEN SUMENEP, JAWA TIMUR
+
+Dokumen ini disusun sebagai sumber rujukan utama (Knowledge Base) untuk sistem Retrieval-Augmented Generation (RAG) pada Asisten AI Desa Rombiya Barat (Dify AI Platform). Berisi panduan lengkap pelayanan persuratan, berkas persyaratan, alur operasional, program bantuan sosial (bansos), pengaduan masyarakat, profil aparatur, sejarah desa, dan tata kelola administrasi Desa Rombiya Barat.
+
+================================================================================
+1. PROFIL UMUM DAN IDENTITAS DESA ROMBIYAH BARAT
+================================================================================
+
+1.1. Identitas Wilayah
+- Nama Desa: Desa Rombiya Barat (dalam dialek lokal dan dokumen tertentu juga sering ditulis Desa Rombiya Barat)
+- Kecamatan: Ganding
+- Kabupaten: Sumenep
+- Provinsi: Jawa Timur
+- Pulau: Madura
+- Kode Pos: 69462
+- Kode Kemendagri: 35.29.10.2001
+
+1.2. Alamat Kantor Balai Desa & Kontak Resmi
+- Alamat Kantor: Jl. Raya Ganding - Rombiya Barat No. 01, Dusun Rombiya, Desa Rombiya Barat, Kecamatan Ganding, Kabupaten Sumenep, Jawa Timur 69462.
+- Nomor Telepon / WhatsApp Resmi: 0823-3456-7890
+- Email Pelayanan Publik: pelayanan@rombiyahbarat.desa.id
+- Situs Web Resmi (SIPEDES): https://rombiyahbarat.desa.id
+
+1.3. Jam Operasional Kantor Balai Desa (Pelayanan Tatap Muka)
+- Senin s.d. Kamis: Pukul 08:00 - 15:00 WIB
+- Jumat: Pukul 08:00 - 11:30 WIB (istirahat persiapan Sholat Jumat)
+- Sabtu, Minggu, dan Hari Libur Nasional: Pelayanan kantor offline tutup (libur).
+- Layanan Online (SIPEDES & Chatbot AI): Aktif 24 jam setiap hari tanpa henti untuk pengajuan surat, pengaduan, dan cek informasi bansos. Berkas yang diajukan di luar jam kerja akan diverifikasi petugas pada hari kerja berikutnya.
+
+1.4. Biaya Pelayanan Administrasi Desa
+- Semua pelayanan administrasi persuratan dan pengaduan di Desa Rombiya Barat adalah GRATIS (Rp 0,- / Bebas Pungutan Liar).
+- Warga hanya menanggung meterai sendiri jika surat tertentu mensyaratkan surat pernyataan bermaterai Rp 10.000 (seperti pada Surat Keterangan Belum Menikah).
+
+1.5. Statistik Kependudukan dan Wilayah
+- Jumlah Penduduk: Sekitar 4.820 jiwa (berdasarkan pemutakhiran data kependudukan terbaru).
+- Jumlah Kepala Keluarga (KK): Sekitar 1.420 KK.
+- Jumlah Dusun: 5 Dusun resmi.
+- Jumlah RT / RW: 20 RT dan 5 RW.
+- Mata Pencaharian Utama: Petani tanaman pangan (padi dan jagung), petani perkebunan tembakau Madura, peternak sapi dan kambing, buruh tani, pedagang, dan pelaku UMKM pengolahan hasil bumi (singkong dan keripik).
+- Luas Lahan Pertanian & Perkebunan: Sekitar 298 Hektar.
+
+================================================================================
+2. SEJARAH DAN KEARIFAN LOKAL DESA ROMBIYAH BARAT
+================================================================================
+
+2.1. Sejarah Asal-Usul Nama dan Berdirinya Desa
+Desa Rombiya Barat terletak di dataran tinggi bergelombang di bagian barat Kecamatan Ganding, Kabupaten Sumenep. Nama Rombiya (atau Rombiya) menurut penuturan tetua dan riwayat lisan masyarakat setempat berasal dari rimbunnya pohon Rumbia (tanaman penghasil sagu dan daun atap) yang pada masa lampau banyak tumbuh di sepanjang mata air dan bantaran sungai desa.
+
+Kawasan ini dulunya merupakan jalur persinggahan dan pemukiman para tokoh penyebar agama Islam serta petani perintis di pedalaman Madura. Di bawah naungan pohon-pohon rumbia yang teduh dan sumber mata air yang melimpah, para pelancong dan saudagar yang melintasi jalur Ganding-Guluk-Guluk sering beristirahat (a-rombiyahan). Seiring berjalannya waktu, wilayah ini berkembang menjadi perkampungan yang ramai dan agraris.
+
+Ketika terjadi penataan administrasi desa pada masa pemerintahan Hindia Belanda dan dilanjutkan era Kemerdekaan Republik Indonesia, kawasan permukiman besar Rombiya dimekarkan menjadi dua wilayah otonom berdasarkan letak geografis, yaitu Desa Rombiya Barat dan Desa Rombiya Timur. Rombiya Barat mencakup sentra perbukitan pertanian tembakau yang subur serta kawasan pemukiman penduduk yang tersebar di lima dusun.
+
+2.2. Nilai Budaya dan Kearifan Lokal
+Masyarakat Desa Rombiya Barat mayoritas beragama Islam dengan tradisi keagamaan santri yang sangat kuat, menghormati para sesepuh, kiai, dan ulama. Hubungan kemasyarakatan diikat oleh falsafah hidup Madura yang luhur:
+- Gotong Royong (Song-Osong Lompang): Saling bahu-membahu dalam pembangunan fasilitas umum, perbaikan saluran irigasi sawah, panen raya tembakau, serta hajatan warga.
+- Rampas dan Musyawarah: Setiap kebijakan desa, penetapan penerima bantuan (BLT-DD), dan rencana pembangunan desa selalu diputuskan melalui Musyawarah Desa (Musdes) yang melibatkan Badan Permusyawaratan Desa (BPD), pamong, dan tokoh masyarakat.
+
+================================================================================
+3. VISI, MISI, DAN TATA KELOLA PEMERINTAHAN DESA
+================================================================================
+
+3.1. Visi Kepala Desa Rombiya Barat (Ibu Farhah)
+"Terwujudnya Tata Kelola Pemerintahan dan Pelayanan Publik Desa Rombiya Barat yang Maju, Transparan, Adil, Sejahtera, dan Berbasis Digital Terpadu."
+
+3.2. Misi Pembangunan Desa
+1. Pelayanan Prima & Digital: Menyelenggarakan pelayanan administrasi dan persuratan desa yang cepat, transparan, bebas pungli, dan dapat diakses dari mana saja melalui aplikasi SIPEDES.
+2. Responsif Terhadap Aspirasi: Mengoptimalkan penanganan keluhan, aduan sarana prasarana, dan aspirasi masyarakat di seluruh 5 dusun secara cepat dan tuntas.
+3. Pemberdayaan Ekonomi Kerakyatan: Meningkatkan pendapatan dan kesejahteraan warga melalui penguatan BUMDes Kencana, modernisasi pertanian tembakau Madura, serta pengembangan UMKM olahan singkong dan hasil bumi.
+4. Keadilan Sosial & Kesehatan: Mendorong transparansi penuh dalam penyaluran seluruh program bantuan sosial (PKH, BLT-DD, BPNT, Beras CBP) serta percepatan penurunan angka stunting melalui posyandu terintegrasi di 5 dusun.
+
+================================================================================
+4. STRUKTUR PEMERINTAHAN DAN PERANGKAT DESA (PAMONG)
+================================================================================
+
+DESA ROMBIYA Barat dipimpin oleh Kepala Desa dibantu oleh jajaran perangkat desa berikut:
+1. Farhah - Jabatan: Kepala Desa (Kades) - Tugas: Penanggung jawab tertinggi pemerintahan desa.
+2. Ahmad Fauzi, S.Pd - Jabatan: Sekretaris Desa (Sekdes) - Tugas: Koordinator administrasi, tata kelola, & keuangan desa.
+3. Moh. Syafi'i - Jabatan: Kaur Keuangan & Bendahara Desa - Tugas: Pengelolaan kas, APBDes, & penyaluran BLT-DD.
+4. Siti Aminah - Jabatan: Kaur Tata Usaha & Umum - Tugas: Pengarsipan surat, persuratan, inventaris balai desa.
+5. Holis, S.Sos - Jabatan: Kasi Pemerintahan - Tugas: Verifikasi kependudukan, status domisili, pertanahan.
+6. Zainal Abidin - Jabatan: Kasi Kesejahteraan (Kesra) - Tugas: Bantuan sosial, jaminan kesehatan, pertanian, keagamaan.
+7. Mahrus - Jabatan: Kasi Pelayanan - Tugas: Pelayanan operasional persuratan warga & pengaduan.
+8. H. Moh. Ridwan - Jabatan: Kepala Dusun Kebunan (Kasun) - Wilayah: Dusun Kebunan (4 RT / RW 02).
+9. Abd. Razak - Jabatan: Kepala Dusun Buwa (Kasun) - Wilayah: Dusun Buwa (3 RT / RW 01).
+10. Samsul Arifin - Jabatan: Kepala Dusun Tanodung (Kasun) - Wilayah: Dusun Tanodung (4 RT / RW 04).
+11. Ach. Subairi - Jabatan: Kepala Dusun Rombiya (Kasun) - Wilayah: Dusun Rombiya (4 RT / RW 03).
+12. Moh. Kholil - Jabatan: Kepala Dusun Kalampok (Kasun) - Wilayah: Dusun Kalampok (5 RT / RW 05).
+
+================================================================================
+5. WILAYAH DUSUN DAN POTENSI DESA
+================================================================================
+
+Desa Rombiya Barat terbagi ke dalam 5 (lima) dusun resmi yang memiliki potensi unggulan masing-masing:
+
+5.1. Dusun Kebunan
+- Kepala Dusun: H. Moh. Ridwan
+- Karakteristik & Potensi: Merupakan sentra pertanian tanaman pangan dan perkebunan tembakau Madura kualitas super. Memiliki hamparan sawah dan tegalan yang luas serta kelompok tani yang aktif dalam pengelolaan irigasi bersama.
+- Rukun Tetangga: 4 RT (RT 001 s.d. RT 004).
+
+5.2. Dusun Buwa
+- Kepala Dusun: Abd. Razak
+- Karakteristik & Potensi: Kawasan pemukiman penduduk yang rindang dan perkebunan tanaman hortikultura (sayuran, cabai, dan buah-buahan lokal), serta peternakan kambing rakyat.
+- Rukun Tetangga: 3 RT (RT 001 s.d. RT 003).
+
+5.3. Dusun Tanodung
+- Kepala Dusun: Samsul Arifin
+- Karakteristik & Potensi: Kawasan budidaya tanaman jagung Madura dan sentra peternakan sapi Madura. Petani di dusun ini memanfaatkan lahan perbukitan untuk tanaman pakan ternak dan palawija.
+- Rukun Tetangga: 4 RT (RT 001 s.d. RT 004).
+
+5.4. Dusun Rombiya
+- Kepala Dusun: Ach. Subairi
+- Karakteristik & Potensi: Merupakan jantung pusat pemerintahan dan pendidikan desa, tempat berdirinya Kantor Balai Desa Rombiya Barat, lembaga pendidikan madrasah, dan pasar desa. Pusat interaksi ekonomi dan perdagangan masyarakat.
+- Rukun Tetangga: 4 RT (RT 001 s.d. RT 004).
+
+5.5. Dusun Kalampok
+- Kepala Dusun: Moh. Kholil
+- Karakteristik & Potensi: Wilayah perkebunan singkong terluas di desa dan sentra Usaha Mikro Kecil dan Menengah (UMKM) pengolahan keripik singkong tradisional, marning jagung, dan aneka jajanan khas Madura.
+- Rukun Tetangga: 5 RT (RT 001 s.d. RT 005).
+
+================================================================================
+6. SISTEM INFORMASI PELAYANAN DESA (SIPEDES)
+================================================================================
+
+6.1. Pengertian SIPEDES
+SIPEDES adalah platform digital resmi DESA ROMBIYA Barat yang dirancang untuk mempermudah warga mengurus dokumen administrasi persuratan, memantau transparansi bantuan sosial (bansos), menyampaikan laporan/pengaduan pembangunan desa, dan berkonsultasi melalui Asisten Chatbot AI selama 24 jam sehari.
+
+6.2. Cara Mendaftar Akun SIPEDES bagi Warga
+1. Kunjungi website resmi SIPEDES dan klik tombol "Daftar / Registrasi Akun".
+2. Masukkan data pribadi yang valid: NIK (16 digit), Nama Lengkap (sesuai KTP/KK), Email aktif, No HP/WhatsApp, Pilihan Dusun & Alamat, serta Password minimal 8 karakter.
+3. Klik tombol Daftar Akun. Setelah berhasil mendaftar, warga dapat langsung login menggunakan NIK dan password tersebut.
+
+6.3. Alur Pengajuan Surat Online (Wizard 3 Langkah)
+- Langkah 1 (Pilih Jenis Surat): Warga memilih salah satu jenis surat yang dibutuhkan dari katalog resmi, melihat estimasi waktu pengerjaan, dan membaca ketentuan dasarnya.
+- Langkah 2 (Unggah Berkas Persyaratan & Catatan): Sistem menampilkan form upload file terpisah untuk masing-masing berkas persyaratan yang ditentukan admin (Format: PDF, JPG, JPEG, PNG, maks 3 MB per berkas). Warga mengisi keperluan pengajuan surat.
+- Langkah 3 (Konfirmasi & Pengiriman): Warga memeriksa kembali ringkasan berkas dan data diri, lalu klik "Kirim Permohonan Surat". Sistem menerbitkan Nomor Permohonan Unik (contoh: SRT/20260906/00001).
+
+6.4. Arti Status Permohonan Surat di SIPEDES
+1. Diajukan (Menunggu Verifikasi): Permohonan baru dikirim warga dan masuk antrean verifikasi.
+2. Diproses (Sedang Diproses): Berkas telah diverifikasi petugas dan surat sedang disusun/dicetak.
+3. Butuh Koreksi: Ada kekurangan berkas (misal foto KTP buram). Terdapat catatan petugas di detail permohonan. Warga dipersilakan mengunggah ulang berkas perbaikan.
+4. Disetujui: Surat resmi telah disetujui. Dokumen PDF Resmi berstempel digital langsung terbit dan dapat diunduh kapan saja oleh warga.
+5. Ditolak: Permohonan tidak dapat diproses karena alasan legalitas atau ketidaksesuaian data.
+6. Dibatalkan: Permohonan yang dibatalkan sendiri oleh pemohon.
+
+6.5. Prosedur Pembatalan Pengajuan Surat oleh Warga
+- Warga dapat membatalkan pengajuan surat kapan saja selama statusnya masih Diajukan atau Butuh Koreksi.
+- Cara membatalkan: Masuk ke menu Riwayat Surat -> klik Detail -> klik tombol merah "Batalkan Pengajuan" -> isi alasan pembatalan -> klik "Ya, Batalkan Pengajuan".
+- Surat yang sudah Diproses atau Disetujui tidak dapat dibatalkan mandiri via web.
+
+================================================================================
+7. KATALOG LENGKAP JENIS SURAT & PERSYARATAN BERKAS
+================================================================================
+
+7.1. Surat Keterangan Tidak Mampu (SKTM)
+- Kode Surat: SKTM
+- Kegunaan: Beasiswa (KIP Kuliah/sekolah), keringanan biaya berobat di RS (Jamkesmas/BPJS PBI), bantuan hukum gratis, dan bansos.
+- Estimasi Waktu: 1 - 2 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP Pemohon (Wajib) - Foto/scan e-KTP asli yang masih berlaku.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - Foto/scan KK warga Desa Rombiya Barat.
+  3. Surat Pengantar RT/RW (Wajib) - Surat pengantar asli bertanda tangan Ketua RT dan RW.
+  4. Foto Rumah / Bukti Kondisi Ekonomi (Opsional) - Foto tampak depan tempat tinggal.
+
+7.2. Surat Keterangan Domisili (SKD)
+- Kode Surat: SKD
+- Kegunaan: Menerangkan bahwa pemohon bertempat tinggal di Desa Rombiya Barat. Diperlukan untuk pembukaan rekening bank, NPWP, melamar pekerjaan, dan pendaftaran sekolah.
+- Estimasi Waktu: 1 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP (Wajib) - Foto/scan KTP pemohon.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - Foto/scan Kartu Keluarga pemohon.
+  3. Surat Pengantar RT/RW (Wajib) - Surat pengantar domisili dari Ketua RT/RW setempat.
+
+7.3. Surat Keterangan Usaha (SKU)
+- Kode Surat: SKU
+- Kegunaan: Menerangkan legalitas usaha UMKM warga di desa. Diperlukan untuk pengajuan kredit usaha rakyat (KUR Bank BRI, Mandiri, BNI, BSI), modal UMKM, dan perizinan NIB.
+- Estimasi Waktu: 1 - 2 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP Pemilik Usaha (Wajib) - Foto/scan KTP pemilik usaha.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - Foto/scan KK pemilik usaha.
+  3. Surat Pengantar RT/RW (Wajib) - Surat pengantar dari RT/RW lokasi usaha.
+  4. Foto Tempat / Aktivitas Usaha (Wajib) - Foto tampak depan tempat usaha atau barang dagangan.
+
+7.4. Surat Pengantar Nikah (Model N1-N4)
+- Kode Surat: SKN
+- Kegunaan: Berkas pengantar pernikahan resmi dari desa untuk pendaftaran ke KUA Kecamatan Ganding atau Catatan Sipil.
+- Estimasi Waktu: 2 - 3 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP Calon Mempelai & Orang Tua (Wajib) - KTP calon pengantin dan kedua orang tua.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - KK calon mempelai.
+  3. Fotokopi Akta Kelahiran & Ijazah Terakhir (Wajib) - Untuk verifikasi kecocokan nama dan tanggal lahir.
+  4. Pas Foto 3x4 Calon Pengantin (Wajib) - Pas foto terbaru ukuran 3x4 background biru atau merah.
+  5. Surat Pengantar RT/RW (Wajib) - Surat pengantar nikah dari Ketua RT/RW domisili.
+  6. Surat Akta Cerai / Kematian Pasangan (Wajib Khusus jika Duda/Janda).
+
+7.5. Surat Keterangan Kematian (SKK)
+- Kode Surat: SKK
+- Kegunaan: Menerangkan wafatnya warga desa. Digunakan untuk Akta Kematian di Disdukcapil, asuransi, pensiun, dan waris.
+- Estimasi Waktu: 1 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP Almarhum/Almarhumah (Wajib) - KTP orang yang meninggal.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - KK almarhum/almarhumah.
+  3. Fotokopi KTP Pelapor / Ahli Waris (Wajib) - KTP pelapor atau keluarga.
+  4. Surat Kematian Medis Dokter/RS/Bidan (Opsional).
+
+7.6. Surat Keterangan Kepemilikan Ternak (Sapi/Kambing)
+- Kode Surat: SKT
+- Kegunaan: Legalitas kepemilikan dan pengantar transaksi jual-beli hewan ternak (Sapi Madura / Kambing) untuk mencegah sengketa kepemilikan atau pencurian ternak.
+- Estimasi Waktu: 1 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP Pemilik Ternak (Wajib) - KTP pemilik hewan ternak.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - KK pemilik ternak.
+  3. Surat Pengantar RT/RW (Wajib) - Surat pengantar dari RT/RW dusun.
+  4. Foto Fisik Hewan Ternak (Wajib) - Foto jelas hewan ternak memperlihatkan ciri-ciri fisik warna dan tanduk.
+
+7.7. Surat Keterangan Belum Menikah (SKBM)
+- Kode Surat: SKBM
+- Kegunaan: Menerangkan status lajang / belum pernah menikah untuk melamar pekerjaan (BUMN/TNI/POLRI), beasiswa, atau KPR.
+- Estimasi Waktu: 1 Hari Kerja
+- Berkas Persyaratan:
+  1. Fotokopi KTP Pemohon (Wajib) - KTP pemohon bersangkutan.
+  2. Fotokopi Kartu Keluarga (KK) (Wajib) - KK pemohon.
+  3. Surat Pernyataan Belum Menikah Bermaterai (Wajib) - Surat pernyataan bermaterai Rp 10.000 ditandatangani pemohon.
+  4. Surat Pengantar RT/RW (Wajib) - Surat pengantar dari RT/RW domisili.
+
+================================================================================
+8. PROGRAM BANTUAN SOSIAL (BANSOS) DESA ROMBIYAH BARAT
+================================================================================
+
+DESA ROMBIYA Barat mengoordinasikan 6 program bantuan sosial:
+
+8.1. BLT Dana Desa (BLT-DD)
+- Sumber Anggaran: APBDes Rombiya Barat (Dana Desa).
+- Kriteria: Keluarga miskin/ekstrem, kehilangan mata pencaharian, penyakit kronis, lansia tunggal, belum menerima PKH/BPNT. Ditetapkan melalui Musyawarah Desa Khusus (Musdesus).
+- Besaran Bantuan: Uang tunai Rp 300.000 per bulan (disalurkan per triwulan Rp 900.000).
+- Syarat Pengambilan: e-KTP Asli dan KK Asli.
+- Lokasi: Balai Desa Rombiya Barat.
+
+8.2. Bantuan Cadangan Beras Pemerintah (CBP 10 Kg)
+- Sumber Anggaran: Bapanas & Perum BULOG.
+- Kriteria: Warga KPM dalam data P3KE Desa Rombiya Barat.
+- Bentuk Bantuan: 10 kg beras kualitas medium per bulan.
+- Syarat Pengambilan: e-KTP Asli, KK Asli, Surat Undangan Pengambilan.
+- Lokasi: Balai Desa Rombiya Barat (dibagi per meja dusun).
+
+8.3. Program Keluarga Harapan (PKH) Kemensos RI
+- Sumber Anggaran: APBN Kemensos RI.
+- Kriteria: Keluarga terdaftar DTKS dengan komponen: Ibu hamil/nifas, balita, anak sekolah, lansia 60+ tahun, atau disabilitas berat.
+- Besaran Bantuan: Rp 225.000 - Rp 750.000 per tahap via Bank Himbara / PT Pos.
+
+8.4. Bantuan Pangan Non Tunai (BPNT / Sembako)
+- Sumber Anggaran: APBN Kemensos RI.
+- Kriteria: Keluarga sosial ekonomi terendah terdaftar DTKS.
+- Bentuk Bantuan: Saldo sembako Rp 200.000 per bulan yang dibelanjakan di e-Warong / BUMDes Kencana.
+
+8.5. Bansos Lansia & Disabilitas (PKH Plus Jatim)
+- Sumber Anggaran: Dinsos Jatim & Sumenep.
+- Kriteria: Lansia 60+ th kurang mampu dan penyandang disabilitas berat non-produktif.
+- Besaran Bantuan: Rp 600.000 per triwulan.
+
+8.6. Bantuan Pupuk Bersubsidi & Bibit Tani
+- Sumber Anggaran: Ketahanan Pangan Dana Desa (20%) & Disperta Sumenep.
+- Kriteria: Petani terdaftar e-Alokasi Simluhtan dan anggota Kelompok Tani (Poktan) 5 dusun.
+- Bentuk Bantuan: Pupuk Urea & NPK Phonska bersubsidi serta bibit unggul jagung dan tembakau.
+
+8.7. Panduan Mengecek Bansos Mandiri di Portal SIPEDES
+Buka portal SIPEDES di menu Cek Bansos (/bansos) -> Masukkan 16 digit NIK atau Nama Lengkap -> Klik Cari. Sistem akan menampilkan rincian jenis bantuan, periode, dan jadwal pengambilan di Balai Desa.
+
+================================================================================
+9. LAYANAN PENGADUAN DAN ASPIRASI WARGA (LAPOR!)
+================================================================================
+
+9.1. Kategori Laporan:
+- Jalan & Infrastruktur Desa: Jalan rusak, saluran air, PJU penerangan jalan.
+- Pertanian & Pengairan (Irigasi): Irigasi sawah, pompa air, pupuk.
+- Bantuan Sosial & Kesejahteraan: Ketepatan sasaran bansos, jadwal bantuan.
+- Pelayanan Administrasi & Petugas: Pelayanan surat, permohonan online.
+- Kebersihan & Lingkungan Hidup: Penanganan sampah dan sanitasi lingkungan.
+- Ketertiban & Keamanan Desa: Ketertiban lingkungan dan perselisihan batas lahan.
+
+9.2. Privasi dan SLA Pengaduan:
+- Opsi Laporan Anonim: Nama warga disamarkan dari publik.
+- Opsi Laporan Rahasia: Hanya dibaca oleh Kepala Desa dan verifikator pengaduan.
+- Waktu Tanggap (SLA): Laporan diverifikasi dalam 1x24 jam kerja dan ditindaklanjuti bersama Kepala Dusun di lokasi aduan. Setiap pelapor mendapatkan Kode Tiket unik (misal: LAPOR-2026-0001).
+
+================================================================================
+10. JADWAL RUTIN POSYANDU 5 DUSUN (PENCEGAHAN STUNTING & KESEHATAN LANSIA)
+================================================================================
+
+1. Dusun Kebunan: Setiap Tanggal 5 (Rumah Kasun H. Moh. Ridwan).
+2. Dusun Buwa: Setiap Tanggal 8 (Poskesdes Buwa / Rumah Kasun Abd. Razak).
+3. Dusun Tanodung: Setiap Tanggal 12 (Balai RT 03 Dusun Tanodung).
+4. Dusun Rombiya: Setiap Tanggal 16 (Halaman RA Sumber Mas Rombiya).
+5. Dusun Kalampok: Setiap Tanggal 20 (Rumah Kasun Moh. Kholil).
+
+Layanan mencakup: Penimbangan balita, imunisasi, pengukuran tinggi badan balita, PMT pangan lokal bergizi, pemeriksaan tensi/gula darah lansia, dan konsultasi ibu hamil.
+
+================================================================================
+11. TANYA JAWAB UMUM (FAQ) ASISTEN AI DESA
+================================================================================
+
+T: Siapa Kepala Desa Rombiya Barat sekarang?
+J: Ibu Farhah. Beliau menjabat sebagai Kepala Desa Rombiya Barat, Kecamatan Ganding, Kabupaten Sumenep.
+
+T: Berapa lama pembuatan surat di SIPEDES?
+J: Surat keterangan umum (SKD, SKK, SKT, SKBM) selesai dalam 1 hari kerja. SKTM dan SKU membutuhkan 1 - 2 hari kerja. Surat Pengantar Nikah (N1-N4) membutuhkan 2 - 3 hari kerja.
+
+T: Apakah ada biaya administrasi pembuatan surat di balai desa?
+J: Gratis 100% (Rp 0,-). Pelayanan administrasi desa bebas dari pungli. Pemohon hanya menanggung meterai sendiri jika jenis surat memerlukan meterai Rp 10.000.
+
+T: Bagaimana cara mengunduh file surat resmi yang disetujui?
+J: Buka menu Riwayat Surat di portal SIPEDES, cari surat yang berstatus hijau Disetujui, lalu klik tombol Unduh PDF Surat Official.
+
+T: Bisakah membatalkan surat yang sudah diajukan?
+J: Ya, selama statusnya masih Diajukan atau Butuh Koreksi. Buka menu Riwayat -> klik Detail permohonan -> klik Batalkan Pengajuan dan berikan alasan pembatalan.
+
+T: Bagaimana cara mengecek apakah saya dapat bansos?
+J: Masuk ke halaman Cek Bansos di portal SIPEDES (/bansos), ketik NIK atau Nama Lengkap Anda di kolom pencarian, lalu klik Cari.
+
+T: Di mana alamat kantor balai desa dan jam pelayanannya?
+J: Jl. Raya Ganding - Rombiya Barat No. 01, Kec. Ganding, Sumenep. Jam buka Senin - Kamis pukul 08:00 - 15:00 WIB dan Jumat pukul 08:00 - 11:30 WIB. Layanan website SIPEDES aktif online 24 jam.
+
+T: Bagaimana cara menyampaikan aduan jalan rusak secara anonim?
+J: Buka menu Lapor Pengaduan di SIPEDES, pilih kategori Jalan & Infrastruktur, pilih Dusun Anda, tulis judul dan rincian aduan, lampirkan foto, lalu centang opsi Lapor Anonim. Laporan akan ditindaklanjuti dalam 1x24 jam kerja.

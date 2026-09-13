@@ -16,23 +16,26 @@ class PermohonanChart extends ChartWidget
         $disetujui = PermohonanSurat::where('status', 'disetujui')->count();
         $ditolak = PermohonanSurat::where('status', 'ditolak')->count();
         $butuhKoreksi = PermohonanSurat::where('status', 'butuh_koreksi')->count();
+        $dibatalkan = PermohonanSurat::where('status', 'dibatalkan')->count();
 
         return [
             'datasets' => [
                 [
                     'label' => 'Jumlah Permohonan',
-                    'data' => [$diajukan, $diproses, $disetujui, $butuhKoreksi, $ditolak],
+                    'data' => [$diajukan, $diproses, $disetujui, $butuhKoreksi, $ditolak, $dibatalkan],
                     'backgroundColor' => [
                         '#f59e0b', // diajukan (amber)
                         '#0ea5e9', // diproses (sky)
                         '#10b981', // disetujui (emerald)
                         '#f97316', // butuh_koreksi (orange)
                         '#ef4444', // ditolak (red)
+                        '#64748b', // dibatalkan (slate)
                     ],
                 ],
             ],
-            'labels' => ['Diajukan', 'Diproses', 'Disetujui', 'Butuh Koreksi', 'Ditolak'],
+            'labels' => ['Diajukan', 'Diproses', 'Disetujui', 'Butuh Koreksi', 'Ditolak', 'Dibatalkan'],
         ];
+
     }
 
     protected function getType(): string

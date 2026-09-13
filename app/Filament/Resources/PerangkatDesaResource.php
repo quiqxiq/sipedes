@@ -64,6 +64,7 @@ class PerangkatDesaResource extends Resource
                         Forms\Components\FileUpload::make('foto')
                             ->label('Foto Resmi Perangkat Desa')
                             ->image()
+                            ->disk('public')
                             ->directory('perangkat-desa')
                             ->columnSpanFull(),
 

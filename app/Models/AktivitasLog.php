@@ -37,4 +37,11 @@ class AktivitasLog extends Model
             'user_agent' => request()->userAgent(),
         ]);
     }
+
+    public static function log($user, string $aksi, string $deskripsi, string $modul = 'pengaduan'): self
+    {
+        $userId = $user instanceof User ? $user->id : (is_numeric($user) ? (int) $user : null);
+
+        return static::catat($userId, $modul, $aksi, $deskripsi);
+    }
 }
