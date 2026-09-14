@@ -30,13 +30,21 @@ class AuthController extends Controller
             'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
+        $user = User::where('nik', $credentials['nik'])->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'nik' => 'Nomor Induk Kependudukan (NIK) tidak terdaftar.',
+            ])->onlyInput('nik');
+        }
+
         if (Auth::attempt(['nik' => $credentials['nik'], 'password' => $credentials['password']], $request->boolean('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended(route('warga.dashboard'))->with('success', 'Selamat datang kembali, ' . Auth::user()->name);
         }
 
         return back()->withErrors([
-            'nik' => 'NIK atau password yang Anda masukkan tidak cocok.',
+            'password' => 'Kata sandi yang Anda masukkan salah.',
         ])->onlyInput('nik');
     }
 

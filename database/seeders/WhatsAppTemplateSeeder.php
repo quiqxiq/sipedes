@@ -99,6 +99,26 @@ class WhatsAppTemplateSeeder extends Seeder
                 'konten' => "Salam Bapak/Ibu *{nama_pelapor}*,\n\nLaporan aspirasi/pengaduan Anda telah resmi tercatat di sistem *SIPEDES Desa Rombiya Barat*:\n\n🎫 *No. Tiket:* {kode_tiket}\n📋 *Judul Laporan:* {judul_pengaduan}\n📂 *Kategori:* {kategori}\n🕒 *Waktu Lapor:* {tanggal_laporan}\n\nPamong desa akan meninjau dan menindaklanjuti laporan Anda. Anda dapat memantau perkembangannya pada akun SIPEDES Anda.\n\n_Pemerintah Desa Rombiya Barat, Kec. Ganding, Kab. Sumenep_",
                 'variabel_tersedia' => ['nama_pelapor', 'kode_tiket', 'judul_pengaduan', 'kategori', 'tanggal_laporan'],
             ],
+
+            // 10. OTP Lupa Password -> Warga
+            [
+                'kode' => 'otp_lupa_password',
+                'nama' => 'Kode OTP Reset Kata Sandi Akun Warga',
+                'kategori' => 'sistem',
+                'target' => 'warga',
+                'konten' => "🔐 *KODE VERIFIKASI OTP — SIPEDES DESA ROMBIYA BARAT*\n\nYth. *{nama_warga}*,\n\nKami menerima permintaan untuk mereset kata sandi akun SIPEDES Anda. Berikut adalah kode verifikasi OTP Anda:\n\n👉 *{otp_code}*\n\nKode ini bersifat RAHASIA dan berlaku selama 10 menit. Jangan berikan kode ini kepada siapa pun termasuk perangkat desa.\n\nJika Anda tidak merasa meminta reset kata sandi, amankan akun Anda segera.\n\n_Pemerintah Desa Rombiya Barat, Kec. Ganding, Kab. Sumenep_",
+                'variabel_tersedia' => ['nama_warga', 'otp_code'],
+            ],
+
+            // 11. Konfirmasi Kata Sandi Berhasil Diubah -> Warga
+            [
+                'kode' => 'password_berhasil_diubah',
+                'nama' => 'Notifikasi Kata Sandi Berhasil Diperbarui',
+                'kategori' => 'sistem',
+                'target' => 'warga',
+                'konten' => "✅ *KATA SANDI BERHASIL DIPERBARUI — SIPEDES DESA ROMBIYA BARAT*\n\nHalo *{nama_warga}*,\n\nKata sandi akun SIPEDES Anda telah berhasil diubah pada {waktu}.\n\nJika Anda merasa tidak melakukan perubahan ini, segera hubungi Balai Desa Rombiya Barat untuk mengamankan akun Anda.\n\n_Pemerintah Desa Rombiya Barat, Kec. Ganding, Kab. Sumenep_",
+                'variabel_tersedia' => ['nama_warga', 'waktu'],
+            ],
         ];
 
         foreach ($templates as $tpl) {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\SuratPdfController;
 use App\Http\Controllers\Warga\AuthController;
 use App\Http\Controllers\Warga\DashboardController;
+use App\Http\Controllers\Warga\ForgotPasswordController;
 use App\Http\Controllers\Warga\InformasiDesaController;
 use App\Http\Controllers\Warga\LandingController;
 use App\Http\Controllers\Warga\PengaduanController;
@@ -22,6 +23,15 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('warga.login.store');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('warga.register');
     Route::post('/register', [AuthController::class, 'register'])->name('warga.register.store');
+
+    // Alur Lupa Password & Verifikasi OTP WhatsApp
+    Route::get('/lupa-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('warga.password.request');
+    Route::post('/lupa-password', [ForgotPasswordController::class, 'sendOtp'])->name('warga.password.send_otp');
+    Route::get('/lupa-password/verifikasi', [ForgotPasswordController::class, 'showVerifyForm'])->name('warga.password.verify');
+    Route::post('/lupa-password/verifikasi', [ForgotPasswordController::class, 'verifyOtp'])->name('warga.password.verify_otp');
+    Route::post('/lupa-password/kirim-ulang', [ForgotPasswordController::class, 'resendOtp'])->name('warga.password.resend');
+    Route::get('/lupa-password/reset', [ForgotPasswordController::class, 'showResetForm'])->name('warga.password.reset');
+    Route::post('/lupa-password/reset', [ForgotPasswordController::class, 'resetPassword'])->name('warga.password.update');
 });
 
 // Protected Warga Routes

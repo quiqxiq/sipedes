@@ -1,15 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('title', 'Pendaftaran Akun Warga — SIPEDES Desa Rombiya Barat')
 
 @section('content')
-<div class="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
-    <div class="max-w-xl w-full space-y-6 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-        <div class="text-center space-y-2">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo Desa Rombiya Barat" class="w-16 h-16 object-contain mx-auto">
-            <h2 class="text-2xl font-extrabold text-slate-900">Daftar Akun Warga Baru</h2>
-            <p class="text-xs text-slate-500">SIPEDES Desa Rombiya Barat — Lengkapi data diri kependudukan Anda untuk mulai mengajukan surat online.</p>
-        </div>
+<div class="max-w-xl w-full space-y-6 bg-white p-7 sm:p-9 rounded-3xl border border-slate-200/80 shadow-sm">
+    <div class="text-center space-y-2">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo Desa Rombiya Barat" class="w-16 h-16 object-contain mx-auto">
+        <h2 class="text-2xl font-extrabold text-slate-900">Daftar Akun Warga Baru</h2>
+        <p class="text-xs text-slate-500">SIPEDES Desa Rombiya Barat — Lengkapi data diri kependudukan Anda untuk mulai mengajukan surat online.</p>
+    </div>
 
         <form class="space-y-4" action="{{ route('warga.register.store') }}" method="POST">
             @csrf
@@ -109,7 +108,7 @@
             </div>
 
             <button type="submit" class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/25 transition-all mt-4">
-                Daftar & Buat Akun Warga
+                Daftar & Buat Akun
             </button>
 
             <div class="text-center pt-2">
@@ -120,7 +119,6 @@
             </div>
         </form>
     </div>
-</div>
 
 <script>
 function togglePasswordVisibility(inputId, btn) {
