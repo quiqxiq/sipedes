@@ -399,6 +399,7 @@ class PermohonanSuratResource extends Resource
         return [
             'index' => Pages\ListPermohonanSurats::route('/'),
             'view' => Pages\ViewPermohonanSurat::route('/{record}'),
+            'edit' => Pages\EditPermohonanSurat::route('/{record}/edit'),
         ];
     }
 }

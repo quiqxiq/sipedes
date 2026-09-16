@@ -18,7 +18,7 @@ const ADMIN_PASSWORD = 'password';
 
 // id contoh dari seeder (PermohonanSuratSeeder & record KnowledgeDocument)
 const PERMOHONAN_ID = 1;
-const KNOWLEDGE_DOCUMENT_ID = 4;
+const KNOWLEDGE_DOCUMENT_ID = 1;
 
 if (!fs.existsSync(SCREENSHOT_DIR)) {
     fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
@@ -26,11 +26,11 @@ if (!fs.existsSync(SCREENSHOT_DIR)) {
 
 function getExecutablePath() {
     const possiblePaths = [
-        'C:\\Users\\g0str\\.cache\\puppeteer\\chrome\\win64-151.0.7922.47\\chrome-win64\\chrome.exe',
         'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
         'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-        'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'
+        'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+        'C:\\Users\\g0str\\.cache\\puppeteer\\chrome\\win64-151.0.7922.47\\chrome-win64\\chrome.exe',
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
     ];
 
     for (const p of possiblePaths) {
@@ -49,7 +49,12 @@ async function capture(page, filePath, urlPath) {
     console.log(`📸 ${path.basename(filePath)}  (${urlPath})`);
     await page.goto(`${BASE_URL}${urlPath}`, { waitUntil: 'networkidle0', timeout: 60000 });
     await waitForPageRender(page);
-    await page.screenshot({ path: filePath, fullPage: true });
+    try {
+        await page.screenshot({ path: filePath, fullPage: true });
+    } catch (err) {
+        console.warn(`⚠️ fullPage failed for ${path.basename(filePath)}, using standard viewport:`, err.message);
+        await page.screenshot({ path: filePath, fullPage: false });
+    }
 }
 
 async function takeScreenshots() {
@@ -81,6 +86,7 @@ async function takeScreenshots() {
         { name: '01_publik_landing.png', path: '/' },
         { name: '02_login_warga.png', path: '/login' },
         { name: '03_registrasi_warga.png', path: '/register' },
+        { name: '03a_lupa_password.png', path: '/lupa-password' },
         { name: '04_admin_login.png', path: '/admin/login' },
     ];
 
