@@ -16,8 +16,10 @@
         </p>
     </div>
 
-    <form class="space-y-5" action="{{ route('warga.password.update') }}" method="POST">
+    <form id="resetPasswordForm" class="space-y-5" action="{{ route('warga.password.update') }}" method="POST">
         @csrf
+        <input type="hidden" name="token" value="{{ $token ?? old('token') ?? session('password_reset_token') }}">
+        <input type="hidden" name="nik" value="{{ $user->nik ?? old('nik') ?? session('password_reset_nik') }}">
 
         <div>
             <label for="password" class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi Baru</label>
@@ -37,7 +39,7 @@
                 </button>
             </div>
             @error('password')
-                <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
+                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
             @enderror
         </div>
 
@@ -45,7 +47,7 @@
             <label for="password_confirmation" class="block text-xs font-semibold text-slate-700 mb-1">Ulangi Kata Sandi Baru</label>
             <div class="relative">
                 <input id="password_confirmation" name="password_confirmation" type="password" required placeholder="Ketik ulang kata sandi baru" 
-                    class="w-full px-4 py-3 pr-11 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all">
+                    class="w-full px-4 py-3 pr-11 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all @error('password') border-rose-500 @enderror">
                 <button type="button" onclick="togglePasswordVisibility('password_confirmation', this)" 
                     class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-600 focus:outline-none p-1.5 rounded-lg transition-colors" 
                     title="Tampilkan / Sembunyikan Kata Sandi">
@@ -58,21 +60,26 @@
                     </svg>
                 </button>
             </div>
+            <p id="clientConfirmError" class="mt-1 text-xs text-rose-600 font-medium hidden">Konfirmasi kata sandi tidak cocok. Pastikan kedua kolom terisi sama persis.</p>
         </div>
 
-        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-[11px] text-slate-500 space-y-1">
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-xs text-slate-600 space-y-1">
             <p class="font-semibold text-slate-700">Persyaratan Kata Sandi:</p>
-            <ul class="list-disc list-inside space-y-0.5 text-slate-600">
+            <ul class="list-disc list-inside space-y-0.5 text-slate-500 text-[11px]">
                 <li>Minimal 8 karakter</li>
-                <li>Disarankan menggunakan kombinasi huruf dan angka</li>
+                <li>Disarankan kombinasi huruf dan angka</li>
             </ul>
         </div>
 
-        <button type="submit" class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="btnSubmitReset" type="submit" class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-75 disabled:cursor-not-allowed text-white font-bold text-sm rounded-xl shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <svg id="btnSubmitIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>Simpan Kata Sandi & Masuk</span>
+            <svg id="btnSubmitSpinner" class="w-4 h-4 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span id="btnSubmitText">Simpan Kata Sandi Baru</span>
         </button>
 
         <div class="text-center pt-2 border-t border-slate-100">
@@ -98,5 +105,43 @@ function togglePasswordVisibility(inputId, btn) {
         eyeSlashIcon.classList.toggle('hidden', !isPassword);
     }
 }
+
+    const form = document.getElementById('resetPasswordForm');
+    const pwd = document.getElementById('password');
+    const pwdConfirm = document.getElementById('password_confirmation');
+    const confirmErr = document.getElementById('clientConfirmError');
+    const btn = document.getElementById('btnSubmitReset');
+    const icon = document.getElementById('btnSubmitIcon');
+    const spinner = document.getElementById('btnSubmitSpinner');
+    const text = document.getElementById('btnSubmitText');
+
+    if (pwdConfirm) {
+        pwdConfirm.addEventListener('input', function () {
+            if (confirmErr) confirmErr.classList.add('hidden');
+            pwdConfirm.classList.remove('border-rose-500');
+        });
+    }
+
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            if (pwd && pwdConfirm && pwd.value !== pwdConfirm.value) {
+                e.preventDefault();
+                if (confirmErr) confirmErr.classList.remove('hidden');
+                pwdConfirm.classList.add('border-rose-500');
+                pwdConfirm.focus();
+                return;
+            }
+
+            if (btn) {
+                btn.style.pointerEvents = 'none';
+                if (icon) icon.classList.add('hidden');
+                if (spinner) spinner.classList.remove('hidden');
+                if (text) text.textContent = 'Menyimpan Kata Sandi...';
+                setTimeout(() => {
+                    btn.disabled = true;
+                }, 50);
+            }
+        });
+    }
 </script>
 @endsection

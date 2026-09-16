@@ -30,7 +30,7 @@
                 <p class="text-xs font-bold text-slate-800 font-mono tracking-wider">{{ $maskedPhone }}</p>
             </div>
         </div>
-        <a href="{{ route('warga.password.request') }}" class="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
+        <a href="{{ route('warga.password.request') }}?ganti=1" class="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
             Ubah NIK
         </a>
     </div>
@@ -38,6 +38,7 @@
     <!-- OTP Form -->
     <form class="space-y-6" action="{{ route('warga.password.verify_otp') }}" method="POST" id="otpForm">
         @csrf
+        <input type="hidden" name="nik" value="{{ $user->nik }}">
 
         <!-- Hidden input for submitting complete 6-digit OTP -->
         <input type="hidden" name="otp" id="realOtpInput" value="{{ old('otp') }}">
@@ -71,6 +72,7 @@
     <div class="pt-3 border-t border-slate-100 text-center">
         <form action="{{ route('warga.password.resend') }}" method="POST" id="resendForm" class="inline">
             @csrf
+            <input type="hidden" name="nik" value="{{ $user->nik }}">
             <p class="text-xs text-slate-600">
                 Tidak menerima kode verifikasi di WhatsApp? 
                 <button type="submit" id="btnResend" 

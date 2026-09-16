@@ -4,10 +4,10 @@
             <!-- Brand Logo -->
             <div class="flex items-center gap-3">
                 <a href="{{ route('warga.landing') }}" class="flex items-center gap-2.5 group">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo Desa Rombiya Barat" class="w-10 h-10 object-contain rounded-xl group-hover:scale-105 transition-transform duration-200">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo Desa {{ $profil->nama_desa ?? 'Rombiya Barat' }}" class="w-10 h-10 object-contain rounded-xl group-hover:scale-105 transition-transform duration-200">
                     <div class="flex flex-col">
                         <span class="font-bold text-lg text-slate-800 leading-snug group-hover:text-emerald-600 transition-colors">SIPEDES</span>
-                        <span class="text-xs text-slate-500 font-medium">Rombiya Barat</span>
+                        <span class="text-xs text-slate-500 font-medium">{{ $profil->nama_desa ?? 'Rombiya Barat' }}</span>
                     </div>
                 </a>
             </div>
@@ -16,6 +16,9 @@
             <div class="hidden lg:flex items-center space-x-5">
                 <a href="{{ route('warga.landing') }}" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Beranda
+                </a>
+                <a href="{{ route('warga.landing') }}#profil-desa" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                    Profil Desa
                 </a>
                 <a href="{{ route('warga.landing') }}#demografi" class="text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
                     Data Kependudukan

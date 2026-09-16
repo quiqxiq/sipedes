@@ -1,6 +1,33 @@
 @extends('layouts.app')
 
-@section('title', 'SIPEDES — Pelayanan Terpadu Desa Rombiya Barat, Ganding, Sumenep')
+@php
+    $formatAngka = fn($n) => number_format((float) ($n ?? 0), 0, ',', '.');
+
+    $namaDesa = $profil?->nama_desa ?? 'Rombiya Barat';
+    $kepalaDesa = $profil?->kepala_desa ?? 'Farhah';
+    $kecamatan = $profil?->kecamatan ?? 'Ganding';
+    $kabupaten = $profil?->kabupaten ?? 'Sumenep';
+    $provinsi = $profil?->provinsi ?? 'Jawa Timur';
+    $kodePos = $profil?->kode_pos ?? '69462';
+
+    $dusunList = $profil?->dusun_list ?? [];
+    $totalDusun = !empty($dusunList) ? count($dusunList) : ($profil?->statistik['jumlah_dusun'] ?? 5);
+    $namaDusunList = !empty($dusunList) 
+        ? collect($dusunList)->pluck('nama')->map(fn($n) => str_replace('Dusun ', '', $n))->implode(', ')
+        : 'Kebunan, Buwa, Tanodung, Rombiya, Kalampok';
+
+    $stats = $profil?->statistik ?? [];
+    $jmlPenduduk = isset($stats['jumlah_penduduk']) ? (int)$stats['jumlah_penduduk'] : 1403;
+    $jmlPendudukMax = isset($stats['jumlah_penduduk_max']) ? (int)$stats['jumlah_penduduk_max'] : 1456;
+    $jmlL = isset($stats['jumlah_laki_laki']) ? (int)$stats['jumlah_laki_laki'] : 652;
+    $jmlP = isset($stats['jumlah_perempuan']) ? (int)$stats['jumlah_perempuan'] : 751;
+    $jmlKk = isset($stats['jumlah_kk']) ? (int)$stats['jumlah_kk'] : 560;
+    $sumberData = $stats['sumber_data'] ?? 'Disdukcapil Kabupaten Sumenep';
+    $jmlRt = $stats['jumlah_rt'] ?? 20;
+    $jmlRw = $stats['jumlah_rw'] ?? 5;
+@endphp
+
+@section('title', 'SIPEDES — Pelayanan Terpadu Desa ' . $namaDesa . ', ' . $kecamatan . ', ' . $kabupaten)
 
 @section('content')
 <!-- Hero Section -->
@@ -11,11 +38,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
                 <div class="flex items-center justify-center lg:justify-start gap-4">
-                    <img src="{{ asset('images/logo.png') }}" alt="Lambang Resmi Desa Rombiya Barat" class="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-xl rounded-2xl bg-white/10 p-1.5 border border-white/20">
+                    <img src="{{ asset('images/logo.png') }}" alt="Lambang Resmi Desa {{ $namaDesa }}" class="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-xl rounded-2xl bg-white/10 p-1.5 border border-white/20">
                     <div class="space-y-1 text-left">
                         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold backdrop-blur-md">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            DESA ROMBIYA Barat &bull; Kec. Ganding &bull; Kab. Sumenep
+                            DESA {{ strtoupper($namaDesa) }} &bull; Kec. {{ $kecamatan }} &bull; Kab. {{ $kabupaten }}
                         </div>
                         <div class="text-[11px] text-emerald-200/90 font-medium tracking-wide">
                             SIPEDES &bull; Sistem Pelayanan Desa Digital Terpadu
@@ -24,11 +51,11 @@
                 </div>
 
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                    Portal Pelayanan Terpadu & Informasi Digital <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-200">Desa Rombiya Barat</span>
+                    Portal Pelayanan Terpadu & Informasi Digital <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-200">Desa {{ $namaDesa }}</span>
                 </h1>
 
                 <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                    Layanan terintegrasi bagi seluruh warga di <strong>5 Dusun (Kebunan, Buwa, Tanodung, Rombiya, Kalampok)</strong>. Urus surat desa, sampaikan aspirasi/pengaduan, pantau bantuan sosial, dan dapatkan jawaban instan dari Asisten AI Desa 24/7.
+                    Layanan terintegrasi bagi seluruh warga di <strong>{{ $totalDusun }} Dusun ({{ $namaDusunList }})</strong>. Urus surat desa, sampaikan aspirasi/pengaduan, pantau bantuan sosial, dan dapatkan jawaban instan dari Asisten AI Desa 24/7.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
@@ -39,11 +66,11 @@
                         Ajukan Surat Online
                     </a>
 
-                    <a href="#tentang-sipedes" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-emerald-700/80 hover:bg-emerald-600/80 border border-emerald-500/50 backdrop-blur-md shadow-md transition-all">
+                    <a href="#profil-desa" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-emerald-700/80 hover:bg-emerald-600/80 border border-emerald-500/50 backdrop-blur-md shadow-md transition-all">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h5m-5 0v-4m0 4h5m-5 0v-4m0 0h-5m5 0V7"></path>
                         </svg>
-                        Apa itu SIPEDES?
+                        Profil & Visi Misi Desa
                     </a>
                 </div>
             </div>
@@ -99,36 +126,36 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
             <div class="border-b md:border-b-0 md:border-r border-emerald-800/60 pb-4 md:pb-0">
-                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-300">1.403</div>
-                <div class="text-xs text-emerald-100/90 font-medium mt-0.5">Total Penduduk (Disdukcapil)</div>
-                <div class="text-[10px] text-emerald-200/70">Rentang 1.403 – 1.456 Jiwa</div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-300">{{ $formatAngka($jmlPenduduk) }}</div>
+                <div class="text-xs text-emerald-100/90 font-medium mt-0.5">Total Penduduk ({{ $sumberData }})</div>
+                <div class="text-[10px] text-emerald-200/70">Rentang {{ $formatAngka($jmlPenduduk) }} – {{ $formatAngka($jmlPendudukMax) }} Jiwa</div>
             </div>
             <div class="border-b md:border-b-0 md:border-r border-emerald-800/60 pb-4 md:pb-0">
                 <div class="text-xl sm:text-2xl font-bold text-white flex items-center justify-center gap-1">
-                    <span class="text-sky-300">652 L</span>
+                    <span class="text-sky-300">{{ $formatAngka($jmlL) }} L</span>
                     <span class="text-emerald-400">&bull;</span>
-                    <span class="text-pink-300">751 P</span>
+                    <span class="text-pink-300">{{ $formatAngka($jmlP) }} P</span>
                 </div>
                 <div class="text-xs text-emerald-100/90 font-medium mt-0.5">Laki-laki &amp; Perempuan</div>
-                <div class="text-[10px] text-emerald-200/70">Proporsi 46,5% : 53,5%</div>
+                <div class="text-[10px] text-emerald-200/70">Tervalidasi Resmi Disdukcapil</div>
             </div>
             <div class="border-b md:border-b-0 md:border-r border-emerald-800/60 pb-4 md:pb-0">
-                <div class="text-2xl sm:text-3xl font-extrabold text-amber-300">560</div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-amber-300">{{ $formatAngka($jmlKk) }}</div>
                 <div class="text-xs text-emerald-100/90 font-medium mt-0.5">Kepala Keluarga (KK)</div>
-                <div class="text-[10px] text-emerald-200/70">5 Dusun &bull; 20 RT &bull; 5 RW</div>
+                <div class="text-[10px] text-emerald-200/70">{{ $totalDusun }} Dusun &bull; {{ $jmlRt }} RT &bull; {{ $jmlRw }} RW</div>
             </div>
             <div class="border-b md:border-b-0 md:border-r border-emerald-800/60 pb-4 md:pb-0">
                 <div class="inline-flex items-center justify-center gap-1 text-2xl sm:text-3xl font-extrabold text-cyan-300">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                    {{ number_format($totalWargaTerdaftar) }}
+                    {{ $formatAngka($totalWargaTerdaftar) }}
                 </div>
                 <div class="text-xs text-emerald-100/90 font-medium mt-0.5">Warga Terdaftar SIPEDES</div>
                 <div class="text-[10px] text-cyan-200/80 font-semibold">Otomatis dari Dashboard</div>
             </div>
             <div>
-                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-300">{{ number_format($totalSuratDisetujui) }}</div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-300">{{ $formatAngka($totalSuratDisetujui) }}</div>
                 <div class="text-xs text-emerald-100/90 font-medium mt-0.5">Surat Resmi Diterbitkan</div>
-                <div class="text-[10px] text-emerald-200/70">{{ number_format($totalPengaduanSelesai) }} Laporan Ditangani</div>
+                <div class="text-[10px] text-emerald-200/70">{{ $formatAngka($totalPengaduanSelesai) }} Laporan Ditangani</div>
             </div>
         </div>
     </div>
@@ -146,13 +173,13 @@
         <div class="text-center max-w-3xl mx-auto space-y-3 mb-12">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                Data Resmi Kependudukan &bull; Disdukcapil Sumenep
+                Data Resmi Kependudukan &bull; {{ $sumberData }}
             </div>
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
-                Statistik Demografi &amp; Kependudukan <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-200">Desa Rombiya Barat</span>
+                Statistik Demografi &amp; Kependudukan <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-200">Desa {{ $namaDesa }}</span>
             </h2>
             <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-                Kecamatan Ganding, Kabupaten Sumenep. Data tervalidasi resmi berdasarkan Dinas Kependudukan dan Pencatatan Sipil (Disdukcapil) serta terintegrasi otomatis dengan akun pelayanan publik digital SIPEDES.
+                Kecamatan {{ $kecamatan }}, Kabupaten {{ $kabupaten }}. Data tervalidasi resmi berdasarkan {{ $sumberData }} serta terintegrasi otomatis dengan akun pelayanan publik digital SIPEDES.
             </p>
         </div>
 
@@ -168,13 +195,13 @@
                         </svg>
                     </div>
                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                        Disdukcapil
+                        {{ Str::limit($sumberData, 18) }}
                     </span>
                 </div>
-                <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">1.403 <span class="text-sm font-semibold text-emerald-300">Jiwa</span></div>
+                <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">{{ $formatAngka($jmlPenduduk) }} <span class="text-sm font-semibold text-emerald-300">Jiwa</span></div>
                 <h3 class="text-sm font-bold text-slate-200 mt-1">Total Jumlah Penduduk</h3>
                 <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-                    Rentang data resmi: <strong>1.403 – 1.456 jiwa</strong> tercatat di administrasi kependudukan Disdukcapil Kab. Sumenep.
+                    Rentang data resmi: <strong>{{ $formatAngka($jmlPenduduk) }} – {{ $formatAngka($jmlPendudukMax) }} jiwa</strong> tercatat di administrasi kependudukan {{ $sumberData }}.
                 </p>
             </div>
 
@@ -187,13 +214,13 @@
                         </svg>
                     </div>
                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
-                        46,5%
+                        Laki-laki
                     </span>
                 </div>
-                <div class="text-3xl sm:text-4xl font-black text-sky-300 tracking-tight">652 <span class="text-sm font-semibold text-slate-300">Jiwa</span></div>
+                <div class="text-3xl sm:text-4xl font-black text-sky-300 tracking-tight">{{ $formatAngka($jmlL) }} <span class="text-sm font-semibold text-slate-300">Jiwa</span></div>
                 <h3 class="text-sm font-bold text-slate-200 mt-1">Penduduk Laki-laki</h3>
                 <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-                    Warga laki-laki yang tersebar di 5 dusun dan mendukung produktivitas sektor pertanian tembakau &amp; UMKM desa.
+                    Warga laki-laki yang tersebar di {{ $totalDusun }} dusun dan mendukung produktivitas sektor pertanian tembakau &amp; UMKM desa.
                 </p>
             </div>
 
@@ -206,10 +233,10 @@
                         </svg>
                     </div>
                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">
-                        53,5%
+                        Perempuan
                     </span>
                 </div>
-                <div class="text-3xl sm:text-4xl font-black text-pink-300 tracking-tight">751 <span class="text-sm font-semibold text-slate-300">Jiwa</span></div>
+                <div class="text-3xl sm:text-4xl font-black text-pink-300 tracking-tight">{{ $formatAngka($jmlP) }} <span class="text-sm font-semibold text-slate-300">Jiwa</span></div>
                 <h3 class="text-sm font-bold text-slate-200 mt-1">Penduduk Perempuan</h3>
                 <p class="text-xs text-slate-400 mt-2 leading-relaxed">
                     Warga perempuan yang aktif dalam kegiatan PKK, pembinaan keluarga, posyandu terpadu, dan industri olahan pangan.
@@ -225,13 +252,13 @@
                         </svg>
                     </div>
                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                        5 Dusun
+                        {{ $totalDusun }} Dusun
                     </span>
                 </div>
-                <div class="text-3xl sm:text-4xl font-black text-amber-300 tracking-tight">560 <span class="text-sm font-semibold text-slate-300">KK</span></div>
+                <div class="text-3xl sm:text-4xl font-black text-amber-300 tracking-tight">{{ $formatAngka($jmlKk) }} <span class="text-sm font-semibold text-slate-300">KK</span></div>
                 <h3 class="text-sm font-bold text-slate-200 mt-1">Jumlah Kepala Keluarga</h3>
                 <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-                    Sekitar 560 Kepala Keluarga (KK) dengan rata-rata 2,5 – 2,6 jiwa per rumah tangga di seluruh rukun tetangga.
+                    Sekitar {{ $formatAngka($jmlKk) }} Kepala Keluarga (KK) tersebar di {{ $totalDusun }} dusun dengan {{ $jmlRt }} rukun tetangga.
                 </p>
             </div>
         </div>
@@ -277,9 +304,9 @@
                                 Warga Terdaftar
                             </div>
                             <div class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 my-1">
-                                {{ number_format($totalWargaTerdaftar) }}
+                                {{ $formatAngka($totalWargaTerdaftar) }}
                             </div>
-                            <span class="text-[11px] text-slate-400 block">dari {{ number_format($totalPengguna) }} Total Pengguna Sistem</span>
+                            <span class="text-[11px] text-slate-400 block">dari {{ $formatAngka($totalPengguna) }} Total Pengguna Sistem</span>
                         </div>
                         
                         @guest
@@ -303,7 +330,7 @@
                                 Surat Diterbitkan
                             </div>
                             <div class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-300 my-1">
-                                {{ number_format($totalSuratDisetujui) }}
+                                {{ $formatAngka($totalSuratDisetujui) }}
                             </div>
                             <span class="text-[11px] text-slate-400 block">Surat Resmi Disetujui &bull; Siap Unduh</span>
                         </div>
@@ -323,34 +350,39 @@
             <!-- Left: Proporsi Gender Visual Bar -->
             <div class="lg:col-span-6 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-7 backdrop-blur-md flex flex-col justify-between">
                 <div>
+                    @php
+                        $totalLdanP = ($jmlL + $jmlP) > 0 ? ($jmlL + $jmlP) : 1;
+                        $persenL = round(($jmlL / $totalLdanP) * 100, 1);
+                        $persenP = round(($jmlP / $totalLdanP) * 100, 1);
+                    @endphp
                     <div class="flex items-center justify-between mb-2">
                         <h4 class="text-sm font-bold text-white flex items-center gap-2">
                             <span class="p-1 rounded-lg bg-sky-500/20 text-sky-400">⚖️</span>
                             Proporsi Gender Penduduk
                         </h4>
-                        <span class="text-xs text-slate-400">1.403 Jiwa</span>
+                        <span class="text-xs text-slate-400">{{ $formatAngka($jmlPenduduk) }} Jiwa</span>
                     </div>
                     <p class="text-xs text-slate-400 mb-5 leading-relaxed">
-                        Keseimbangan komposisi demografi laki-laki (652 jiwa) dan perempuan (751 jiwa) di Desa Rombiya Barat.
+                        Keseimbangan komposisi demografi laki-laki ({{ $formatAngka($jmlL) }} jiwa) dan perempuan ({{ $formatAngka($jmlP) }} jiwa) di Desa {{ $namaDesa }}.
                     </p>
 
                     <!-- Comparative Progress Bar -->
                     <div class="space-y-2 mb-6">
                         <div class="h-5 w-full bg-slate-800 rounded-full overflow-hidden p-0.5 flex border border-white/10 shadow-inner">
-                            <div class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 rounded-l-full transition-all duration-1000 relative group" style="width: 46.5%">
-                                <span class="sr-only">Laki-laki 46,5%</span>
+                            <div class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 rounded-l-full transition-all duration-1000 relative group" style="width: {{ $persenL }}%">
+                                <span class="sr-only">Laki-laki {{ str_replace('.', ',', (string)$persenL) }}%</span>
                             </div>
-                            <div class="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-r-full transition-all duration-1000 relative group" style="width: 53.5%">
-                                <span class="sr-only">Perempuan 53,5%</span>
+                            <div class="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-r-full transition-all duration-1000 relative group" style="width: {{ $persenP }}%">
+                                <span class="sr-only">Perempuan {{ str_replace('.', ',', (string)$persenP) }}%</span>
                             </div>
                         </div>
                         <div class="flex justify-between items-center text-xs font-bold pt-1">
                             <div class="flex items-center gap-2 text-sky-300">
                                 <span class="w-3 h-3 rounded-full bg-sky-400"></span>
-                                <span>Laki-laki: 652 Jiwa (46,5%)</span>
+                                <span>Laki-laki: {{ $formatAngka($jmlL) }} Jiwa ({{ str_replace('.', ',', (string)$persenL) }}%)</span>
                             </div>
                             <div class="flex items-center gap-2 text-pink-300">
-                                <span>Perempuan: 751 Jiwa (53,5%)</span>
+                                <span>Perempuan: {{ $formatAngka($jmlP) }} Jiwa ({{ str_replace('.', ',', (string)$persenP) }}%)</span>
                                 <span class="w-3 h-3 rounded-full bg-pink-400"></span>
                             </div>
                         </div>
@@ -364,66 +396,78 @@
                 </div>
             </div>
 
-            <!-- Right: Sebaran 5 Dusun Administrasi -->
+            <!-- Right: Sebaran Dusun Administrasi -->
             <div class="lg:col-span-6 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-7 backdrop-blur-md flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <h4 class="text-sm font-bold text-white flex items-center gap-2">
                             <span class="p-1 rounded-lg bg-emerald-500/20 text-emerald-400">🏡</span>
-                            Wilayah Kewilayahan 5 Dusun
+                            Wilayah Kewilayahan {{ $totalDusun }} Dusun
                         </h4>
-                        <span class="text-xs text-emerald-300 font-semibold">20 RT &bull; 5 RW</span>
+                        <span class="text-xs text-emerald-300 font-semibold">{{ $jmlRt }} RT &bull; {{ $jmlRw }} RW</span>
                     </div>
                     <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                        Desa Rombiya Barat terbagi atas 5 wilayah dusun strategis yang dipimpin masing-masing Kepala Dusun (Kasun):
+                        Desa {{ $namaDesa }} terbagi atas {{ $totalDusun }} wilayah dusun strategis yang dipimpin masing-masing Kepala Dusun (Kasun):
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
-                        <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold text-white block">Dusun Kebunan</span>
-                                <span class="text-[10px] text-slate-400">Pertanian Padi &amp; Tembakau</span>
-                            </div>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">4 RT</span>
+                    @if(!empty($dusunList))
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                            @foreach($dusunList as $dusun)
+                                <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between {{ $loop->last && $loop->count % 2 != 0 ? 'sm:col-span-2' : '' }}">
+                                    <div>
+                                        <span class="text-xs font-bold text-white block">{{ $dusun['nama'] ?? 'Dusun' }}</span>
+                                        <span class="text-[10px] text-slate-400">{{ $dusun['deskripsi'] ?? ($dusun['kasun'] ?? '') }}</span>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">
+                                        {{ $dusun['jumlah_rt'] ?? '-' }} RT
+                                    </span>
+                                </div>
+                            @endforeach
                         </div>
-
-                        <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold text-white block">Dusun Buwa</span>
-                                <span class="text-[10px] text-slate-400">Pemukiman &amp; Hortikultura</span>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                            <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Dusun Kebunan</span>
+                                    <span class="text-[10px] text-slate-400">Pertanian Padi &amp; Tembakau</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">4 RT</span>
                             </div>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">3 RT</span>
-                        </div>
-
-                        <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold text-white block">Dusun Tanodung</span>
-                                <span class="text-[10px] text-slate-400">Peternakan Sapi &amp; Pangan</span>
+                            <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Dusun Buwa</span>
+                                    <span class="text-[10px] text-slate-400">Pemukiman &amp; Hortikultura</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">3 RT</span>
                             </div>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">4 RT</span>
-                        </div>
-
-                        <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold text-white block">Dusun Rombiya</span>
-                                <span class="text-[10px] text-slate-400">Pusat Desa &amp; Pendidikan</span>
+                            <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Dusun Tanodung</span>
+                                    <span class="text-[10px] text-slate-400">Peternakan Sapi &amp; Pangan</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">4 RT</span>
                             </div>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">4 RT</span>
-                        </div>
-
-                        <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between sm:col-span-2">
-                            <div>
-                                <span class="text-xs font-bold text-white block">Dusun Kalampok</span>
-                                <span class="text-[10px] text-slate-400">Sentra UMKM Keripik &amp; Olahan Singkong TTG</span>
+                            <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Dusun Rombiya</span>
+                                    <span class="text-[10px] text-slate-400">Pusat Desa &amp; Pendidikan</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">4 RT</span>
                             </div>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">5 RT</span>
+                            <div class="p-3 rounded-xl bg-slate-800/80 border border-white/5 flex items-center justify-between sm:col-span-2">
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Dusun Kalampok</span>
+                                    <span class="text-[10px] text-slate-400">Sentra UMKM Keripik &amp; Olahan Singkong TTG</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300">5 RT</span>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <div class="text-[11px] text-slate-400 flex items-center justify-between pt-2 border-t border-white/5">
-                    <span>Total Satuan Lingkungan: <strong>20 Rukun Tetangga (RT)</strong></span>
-                    <span class="text-emerald-300 font-semibold">5 Rukun Warga (RW)</span>
+                    <span>Total Satuan Lingkungan: <strong>{{ $jmlRt }} Rukun Tetangga (RT)</strong></span>
+                    <span class="text-emerald-300 font-semibold">{{ $jmlRw }} Rukun Warga (RW)</span>
                 </div>
             </div>
         </div>
@@ -463,6 +507,144 @@
     </div>
 </section>
 
+<!-- Section: Profil, Sejarah, Visi-Misi & Potensi Desa (Dinamis dari Dashboard) -->
+<section id="profil-desa" class="py-16 bg-white relative overflow-hidden border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto space-y-3 mb-14">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                Profil Pemerintahan & Potensi Wilayah
+            </div>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+                Mengenal <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Desa {{ $namaDesa }}</span>
+            </h2>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Kecamatan {{ $kecamatan }}, Kabupaten {{ $kabupaten }}, Provinsi {{ $provinsi }} (Kode Pos: {{ $kodePos }}) &bull; Dipimpin oleh Kepala Desa <strong>{{ $kepalaDesa }}</strong>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-stretch">
+            
+            <!-- Sejarah Desa -->
+            <div class="lg:col-span-6 bg-gradient-to-br from-slate-50 to-emerald-50/40 rounded-3xl p-7 sm:p-9 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-all">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Kilas Sejarah &amp; Geografis</span>
+                            <h3 class="text-lg font-extrabold text-slate-900">Sejarah &amp; Gambaran Singkat</h3>
+                        </div>
+                    </div>
+
+                    <div class="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-3">
+                        @if(!empty($profil?->sejarah))
+                            <p class="whitespace-pre-line">{{ $profil->sejarah }}</p>
+                        @else
+                            <p>
+                                Desa {{ $namaDesa }} merupakan salah satu desa di wilayah Kecamatan {{ $kecamatan }}, Kabupaten {{ $kabupaten }}, Madura, Jawa Timur. Desa ini memiliki tanah pertanian dan perkebunan yang subur dengan komoditas unggulan tembakau Madura, jagung, padi, dan olahan singkong, serta masyarakat yang menjunjung tinggi nilai gotong royong dan kearifan lokal keagamaan.
+                            </p>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-200/70 flex items-center justify-between text-xs text-slate-500">
+                    <span>Wilayah: <strong>{{ $totalDusun }} Dusun</strong></span>
+                    <span class="text-emerald-700 font-semibold">{{ $jmlRt }} RT &bull; {{ $jmlRw }} RW</span>
+                </div>
+            </div>
+
+            <!-- Visi & Misi Desa -->
+            <div class="lg:col-span-6 bg-gradient-to-br from-slate-50 to-teal-50/40 rounded-3xl p-7 sm:p-9 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-all">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-md shadow-teal-600/20">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-teal-700 uppercase tracking-wider block">Arah Kebijakan &amp; Komitmen</span>
+                            <h3 class="text-lg font-extrabold text-slate-900">Visi &amp; Misi Pembangunan Desa</h3>
+                        </div>
+                    </div>
+
+                    <div class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-white/80 p-5 rounded-2xl border border-slate-200/60 shadow-2xs">
+                        @if(!empty($profil?->visi_misi))
+                            <div class="whitespace-pre-line font-medium text-slate-700">{{ $profil->visi_misi }}</div>
+                        @else
+                            <div class="space-y-2">
+                                <p class="font-bold text-teal-900">VISI:</p>
+                                <p class="italic text-slate-700">"Terwujudnya Tata Kelola Pemerintahan dan Pelayanan Publik Desa {{ $namaDesa }} yang Maju, Transparan, Adil, Sejahtera, dan Berbasis Digital Terpadu."</p>
+                                <p class="font-bold text-teal-900 pt-2">MISI:</p>
+                                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                                    <li>Menyelenggarakan pelayanan administrasi dan persuratan desa yang cepat, transparan, dan bebas pungli.</li>
+                                    <li>Mengoptimalkan pelayanan aspirasi dan pengaduan masyarakat secara responsif di seluruh dusun.</li>
+                                    <li>Meningkatkan kesejahteraan ekonomi warga melalui BUMDes dan sektor pertanian unggulan.</li>
+                                    <li>Mendorong transparansi bantuan sosial dan pencegahan stunting terintegrasi.</li>
+                                </ol>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-200/70 text-right">
+                    <span class="text-xs text-teal-800 font-semibold">Dipimpin oleh Kepala Desa: {{ $kepalaDesa }}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Potensi Unggulan Desa Cards -->
+        @if(!empty($profil?->potensi_desa) && is_array($profil->potensi_desa))
+        <div>
+            <div class="text-center max-w-2xl mx-auto mb-6">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Sektor Unggulan</span>
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">Potensi Ekonomi &amp; Sumber Daya Desa</h3>
+                <p class="text-xs text-slate-500 mt-1">Komoditas pertanian, peternakan rakyat, sentra UMKM, dan unit usaha desa.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                @php
+                    $potensiIcons = [
+                        'pertanian' => ['icon' => '🌾', 'color' => 'emerald', 'title' => 'Sektor Pertanian'],
+                        'peternakan' => ['icon' => '🐂', 'color' => 'amber', 'title' => 'Peternakan Rakyat'],
+                        'umkm' => ['icon' => '🍠', 'color' => 'orange', 'title' => 'Industri UMKM Olahan'],
+                        'bumdes' => ['icon' => '🏢', 'color' => 'teal', 'title' => 'BUMDes Kencana'],
+                    ];
+                @endphp
+
+                @foreach($profil->potensi_desa as $sektor => $deskripsi)
+                    @php
+                        $meta = $potensiIcons[strtolower($sektor)] ?? ['icon' => '✨', 'color' => 'emerald', 'title' => ucwords(str_replace('_', ' ', $sektor))];
+                    @endphp
+                    <div class="bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                                {{ $meta['icon'] }}
+                            </div>
+                            <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block mb-1">{{ strtoupper($sektor) }}</span>
+                            <h4 class="text-sm font-bold text-slate-900 mb-2">{{ $meta['title'] }}</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">{{ $deskripsi }}</p>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                            <span>Desa {{ $namaDesa }}</span>
+                            <span class="text-emerald-600 font-bold">&check; Unggulan</span>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+    </div>
+</section>
+
 <!-- Section: Mengenal SIPEDES (Sistem Pelayanan Desa) -->
 <section id="tentang-sipedes" class="py-16 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -477,8 +659,8 @@
                 </div>
                 <div class="text-center lg:text-left space-y-1">
                     <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">Identitas Resmi</span>
-                    <h3 class="text-base font-bold text-slate-800">DESA ROMBIYA Barat</h3>
-                    <p class="text-xs text-slate-500">Kecamatan Ganding, Kabupaten Sumenep, Jawa Timur</p>
+                    <h3 class="text-base font-bold text-slate-800">DESA {{ strtoupper($namaDesa) }}</h3>
+                    <p class="text-xs text-slate-500">Kecamatan {{ $kecamatan }}, Kabupaten {{ $kabupaten }}, {{ $provinsi }}</p>
                 </div>
             </div>
 
@@ -498,10 +680,10 @@
 
                 <div class="prose prose-slate text-xs sm:text-sm text-slate-600 leading-relaxed space-y-3">
                     <p>
-                        <strong>SIPEDES (Sistem Pelayanan Desa)</strong> merupakan platform digital inovatif dan terpadu milik <strong>DESA ROMBIYA Barat</strong>, dirancang khusus untuk memodernisasi tata kelola birokrasi dan memudahkan masyarakat dalam mendapatkan pelayanan administrasi secara mandiri, transparan, cepat, dan akuntabel.
+                        <strong>SIPEDES (Sistem Pelayanan Desa)</strong> merupakan platform digital inovatif dan terpadu milik <strong>DESA {{ strtoupper($namaDesa) }}</strong>, dirancang khusus untuk memodernisasi tata kelola birokrasi dan memudahkan masyarakat dalam mendapatkan pelayanan administrasi secara mandiri, transparan, cepat, dan akuntabel.
                     </p>
                     <p>
-                        Dengan hadirnya SIPEDES, warga di 5 Dusun (Dusun Kebunan, Dusun Buwa, Dusun Tanodung, Dusun Rombiya, dan Dusun Kalampok) tidak lagi harus bolak-balik ke kantor Balai Desa hanya untuk menanyakan berkas persyaratan atau mengantre berjam-jam. Seluruh proses persuratan dapat diajukan secara online dari mana saja dan kapan saja.
+                        Dengan hadirnya SIPEDES, warga di {{ $totalDusun }} Dusun ({{ $namaDusunList }}) tidak lagi harus bolak-balik ke kantor Balai Desa hanya untuk menanyakan berkas persyaratan atau mengantre berjam-jam. Seluruh proses persuratan dapat diajukan secara online dari mana saja dan kapan saja.
                     </p>
                 </div>
 
@@ -558,7 +740,7 @@
         <div class="text-center max-w-3xl mx-auto space-y-2 mb-10">
             <span class="text-xs font-bold tracking-wider text-emerald-600 uppercase">Pelayanan Publik Terpadu</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Kemudahan Akses Pelayanan Masyarakat</h2>
-            <p class="text-slate-600 text-xs sm:text-sm">DESA ROMBIYA Barat berkomitmen menghadirkan tata kelola pemerintahan yang terbuka, cepat, dan responsif.</p>
+            <p class="text-slate-600 text-xs sm:text-sm">DESA {{ strtoupper($namaDesa) }} berkomitmen menghadirkan tata kelola pemerintahan yang terbuka, cepat, dan responsif.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -693,7 +875,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <div>
-                <span class="text-xs font-bold tracking-wider text-emerald-600 uppercase">Warta Desa Rombiya Barat</span>
+                <span class="text-xs font-bold tracking-wider text-emerald-600 uppercase">Warta Desa {{ $namaDesa }}</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Kabar & Agenda Kegiatan Desa</h2>
             </div>
             <a href="{{ route('warga.informasi.index') }}" class="mt-4 md:mt-0 text-xs font-bold text-emerald-600 hover:text-emerald-700 inline-flex items-center gap-1">
@@ -755,10 +937,10 @@
                 Struktur Organisasi & Tata Kelola
             </div>
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900">
-                Bagan Hierarki Pemerintahan <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Desa Rombiya Barat</span>
+                Bagan Hierarki Pemerintahan <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Desa {{ $namaDesa }}</span>
             </h2>
             <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Alur kepemimpinan terintegrasi di bawah Kepala Desa <strong>{{ $kades->nama ?? ($profil->kepala_desa ?? 'Kepala Desa') }}</strong> bersama perangkat sekretariat, pelaksana teknis, dan 5 Kepala Dusun untuk melayani seluruh masyarakat.
+                Alur kepemimpinan terintegrasi di bawah Kepala Desa <strong>{{ $kades->nama ?? ($profil->kepala_desa ?? 'Kepala Desa') }}</strong> bersama perangkat sekretariat, pelaksana teknis, dan {{ $totalDusun }} Kepala Dusun untuk melayani seluruh masyarakat.
             </p>
         </div>
 
@@ -917,14 +1099,14 @@
                             Gedung Utama Pelayanan
                         </div>
                         <h3 class="text-lg sm:text-xl font-extrabold text-white leading-tight drop-shadow-sm">
-                            Balai Desa Rombiya Barat
+                            Balai Desa {{ $namaDesa }}
                         </h3>
                         <p class="text-xs text-slate-200 mt-1 flex items-center gap-1.5">
                             <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
-                            Kecamatan Ganding, Kabupaten Sumenep
+                            Kecamatan {{ $kecamatan }}, Kabupaten {{ $kabupaten }}
                         </p>
                     </div>
                 </div>
@@ -937,10 +1119,10 @@
                             Pusat Pelayanan & Administrasi Warga
                         </div>
                         <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">
-                            Kantor Balai Desa Rombiya Barat
+                            Kantor Balai Desa {{ $namaDesa }}
                         </h3>
                         <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-                            Pusat koordinasi pemerintahan desa dan pelayanan masyarakat untuk 5 dusun (Kebunan, Buwa, Tanodung, Rombiya, dan Kalampok). Dilengkapi sarana musyawarah warga, posko BUMDes Kencana, dan layanan surat terpadu.
+                            Pusat koordinasi pemerintahan desa dan pelayanan masyarakat untuk {{ $totalDusun }} dusun ({{ $namaDusunList }}). Dilengkapi sarana musyawarah warga, posko BUMDes Kencana, dan layanan surat terpadu.
                         </p>
                     </div>
 
@@ -972,9 +1154,18 @@
                                 Jam Pelayanan Tatap Muka
                             </div>
                             <ul class="text-xs text-slate-600 space-y-1">
-                                <li class="flex justify-between border-b border-slate-100 pb-0.5"><span>Senin - Kamis:</span> <strong class="text-slate-800">08:00 - 15:00 WIB</strong></li>
-                                <li class="flex justify-between border-b border-slate-100 pb-0.5"><span>Jumat:</span> <strong class="text-slate-800">08:00 - 11:30 WIB</strong></li>
-                                <li class="flex justify-between text-emerald-700 font-semibold"><span>Online (SIPEDES):</span> <span>24 Jam Nonstop</span></li>
+                                @if(!empty($profil->jam_operasional))
+                                    @foreach($profil->jam_operasional as $hari => $jam)
+                                        <li class="flex justify-between border-b border-slate-100 pb-0.5">
+                                            <span>{{ $hari }}:</span> 
+                                            <strong class="{{ str_contains(strtolower($jam), 'libur') ? 'text-rose-600' : 'text-slate-800' }}">{{ $jam }}</strong>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li class="flex justify-between border-b border-slate-100 pb-0.5"><span>Senin - Kamis:</span> <strong class="text-slate-800">08:00 - 15:00 WIB</strong></li>
+                                    <li class="flex justify-between border-b border-slate-100 pb-0.5"><span>Jumat:</span> <strong class="text-slate-800">08:00 - 11:30 WIB</strong></li>
+                                    <li class="flex justify-between text-emerald-700 font-semibold"><span>Online (SIPEDES):</span> <span>24 Jam Nonstop</span></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -982,13 +1173,13 @@
                     <!-- Lembaga Kemitraan & Tombol WhatsApp -->
                     <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="text-xs text-slate-600 w-full sm:w-auto">
-                            <span class="font-bold text-slate-800 block">Kemitraan & Sarana Pertanian:</span>
-                            <span class="text-[11px] text-slate-500">BUMDes Kencana &bull; Poktan &bull; Posko Penyaluran Bansos</span>
+                            <span class="font-bold text-slate-800 block">Kemitraan & Sarana Desa:</span>
+                            <span class="text-[11px] text-slate-500">BUMDes Kencana &bull; Poktan &bull; Posko Pelayanan Publik</span>
                         </div>
 
-                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $profil->kontak['whatsapp'] ?? '082334567890') }}?text=Halo%20Pemerintah%20Desa%20Rombiya%20Barat,%20saya%20ingin%20bertanya%20mengenai%20layanan%20desa." 
-                           target="_blank" 
-                           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all">
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $profil->kontak['whatsapp'] ?? $profil->kontak['telepon'] ?? '082334567890') }}?text=Halo%20Pemerintah%20Desa%20{{ urlencode($namaDesa) }},%20saya%20ingin%20bertanya%20mengenai%20layanan%20desa." 
+                            target="_blank" 
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.375-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/>
                             </svg>

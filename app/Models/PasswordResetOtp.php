@@ -17,8 +17,10 @@ class PasswordResetOtp extends Model
         'nik',
         'telepon',
         'otp',
+        'reset_token',
         'attempts',
         'is_used',
+        'verified_at',
         'expires_at',
     ];
 
@@ -26,6 +28,7 @@ class PasswordResetOtp extends Model
     {
         return [
             'expires_at' => 'datetime',
+            'verified_at' => 'datetime',
             'is_used' => 'boolean',
             'attempts' => 'integer',
         ];
