@@ -45,12 +45,21 @@ async function waitForPageRender(page, delayMs = RENDER_DELAY_MS) {
     await new Promise(r => setTimeout(r, delayMs));
 }
 
-async function capture(page, filePath, urlPath) {
+async function capture(page, filePath, urlPath, options = {}) {
     console.log(`📸 ${path.basename(filePath)}  (${urlPath})`);
     await page.goto(`${BASE_URL}${urlPath}`, { waitUntil: 'networkidle0', timeout: 60000 });
     await waitForPageRender(page);
+
+    if (options.scrollTo) {
+        await page.evaluate((selector) => {
+            const el = document.querySelector(selector);
+            if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }, options.scrollTo);
+        await new Promise(r => setTimeout(r, 1000));
+    }
+
     try {
-        await page.screenshot({ path: filePath, fullPage: true });
+        await page.screenshot({ path: filePath, fullPage: options.fullPage !== false });
     } catch (err) {
         console.warn(`⚠️ fullPage failed for ${path.basename(filePath)}, using standard viewport:`, err.message);
         await page.screenshot({ path: filePath, fullPage: false });
@@ -58,8 +67,18 @@ async function capture(page, filePath, urlPath) {
 }
 
 async function takeScreenshots() {
-    console.log('🚀 Memulai Screenshot Generator SIPEDES Rombiyah Barat...');
+    console.log('🚀 Memulai Screenshot Generator SIPEDES Desa Rombiya Barat (BAB IV & V)...');
     console.log(`⏱️ Waktu tunggu render: ${RENDER_DELAY_MS / 1000} detik/halaman`);
+
+    // Siapkan data OTP otomatis untuk screenshot halaman verifikasi dan reset password
+    try {
+        const prepRes = await fetch(`${BASE_URL}/_screenshot-prep-otp`);
+        if (prepRes.ok) {
+            console.log('🔑 Data OTP pengujian berhasil disiapkan untuk demo.');
+        }
+    } catch (e) {
+        console.warn('⚠️ Info: _screenshot-prep-otp tidak terpanggil:', e.message);
+    }
 
     const execPath = getExecutablePath();
     const launchOptions = {
@@ -76,23 +95,26 @@ async function takeScreenshots() {
     let count = 0;
 
     // ============================================================
-    // 1. HALAMAN PUBLIK & GUEST (TANPA LOGIN)
+    // 1. HALAMAN PUBLIK & AUTENTIKASI WARGA (GUEST)
     // ============================================================
-    console.log('\n🌐 1. HALAMAN PUBLIK & GUEST...');
+    console.log('\n🌐 1. HALAMAN PUBLIK & AUTENTIKASI WARGA...');
     const publicPage = await browser.newPage();
     await publicPage.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
 
     const publicPages = [
-        { name: '01_publik_landing.png', path: '/' },
+        { name: '01_publik_landing.png', path: '/', options: { fullPage: true } },
+        { name: '01a_publik_profil_desa.png', path: '/', options: { scrollTo: '#profil-desa', fullPage: false } },
         { name: '02_login_warga.png', path: '/login' },
         { name: '03_registrasi_warga.png', path: '/register' },
         { name: '03a_lupa_password.png', path: '/lupa-password' },
+        { name: '03b_lupa_password_verifikasi.png', path: `/lupa-password/verifikasi?nik=${WARGA_NIK}` },
+        { name: '03c_lupa_password_reset.png', path: `/lupa-password/reset?token=demo-token-skripsi-2026&nik=${WARGA_NIK}` },
         { name: '04_admin_login.png', path: '/admin/login' },
     ];
 
     for (const p of publicPages) {
         try {
-            await capture(publicPage, path.join(SCREENSHOT_DIR, p.name), p.path);
+            await capture(publicPage, path.join(SCREENSHOT_DIR, p.name), p.path, p.options || {});
             count++;
         } catch (e) {
             console.warn(`⚠️ Skipped ${p.name}: ${e.message}`);
@@ -100,7 +122,7 @@ async function takeScreenshots() {
     }
 
     // ============================================================
-    // 2. PORTAL WARGA (LOGIN SEBAGAI WARGA)
+    // 2. PORTAL LAYANAN WARGA (LOGIN SEBAGAI WARGA)
     // ============================================================
     console.log(`\n🔑 2. AUTENTIKASI PORTAL WARGA (${WARGA_NIK})...`);
     const wargaContext = await browser.createBrowserContext();
@@ -130,10 +152,10 @@ async function takeScreenshots() {
         { name: '06_warga_pengajuan_surat.png', path: '/pengajuan' },
         { name: '07_warga_riwayat_index.png', path: '/riwayat' },
         { name: '08_warga_riwayat_detail.png', path: `/riwayat/${PERMOHONAN_ID}` },
+        { name: '09_warga_surat_pdf.png', path: `/surat/${PERMOHONAN_ID}/preview` },
     ];
 
-    // Route /surat/{id}/pdf mengembalikan dokumen PDF (bukan halaman HTML).
-    // Browser headless tidak dapat menampilkan viewer PDF, jadi cukup unduh file PDF-nya.
+    // Unduh juga file PDF aslinya
     try {
         const cookies = await wargaPage.cookies();
         const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join('; ');
@@ -149,7 +171,6 @@ async function takeScreenshots() {
     } catch (e) {
         console.warn(`⚠️ Gagal mengunduh PDF: ${e.message}`);
     }
-    count++;
 
     for (const p of wargaPages) {
         try {
@@ -215,7 +236,7 @@ async function takeScreenshots() {
     }
 
     await browser.close();
-    console.log(`\n🎉 ${count} screenshot berhasil diambil & disimpan di: ${SCREENSHOT_DIR}`);
+    console.log(`\n🎉 Seluruh ${count} screenshot berhasil diambil & disimpan di: ${SCREENSHOT_DIR}`);
 }
 
 takeScreenshots().catch(console.error);

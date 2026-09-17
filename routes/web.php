@@ -50,6 +50,47 @@ Route::middleware('auth')->group(function () {
     Route::get('/lapor/riwayat', [PengaduanController::class, 'index'])->name('warga.pengaduan.index');
     Route::get('/lapor/{id}', [PengaduanController::class, 'show'])->name('warga.pengaduan.show');
 
-    // Download PDF Surat Official
+    // Download & Preview PDF Surat Official
     Route::get('/surat/{id}/pdf', [SuratPdfController::class, 'generatePdf'])->name('warga.surat.pdf');
+    Route::get('/surat/{id}/preview', function ($id) {
+        $permohonan = \App\Models\PermohonanSurat::with(['jenisSurat', 'user', 'petugas'])->findOrFail($id);
+        $profil = \App\Models\ProfilDesa::first();
+        $logoPath = public_path('images/logo.png');
+        $logoBase64 = file_exists($logoPath)
+            ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath))
+            : null;
+        $tanggalObj = $permohonan->tanggal_selesai ?? $permohonan->updated_at ?? now();
+        $tanggalSurat = $tanggalObj->translatedFormat('d F Y');
+        $kadesName = !empty($profil?->kepala_desa) ? strtoupper($profil->kepala_desa) : 'FARHAH';
+
+        return view('pdf.surat-template', [
+            'permohonan' => $permohonan,
+            'profil' => $profil,
+            'logoBase64' => $logoBase64,
+            'tanggalSurat' => $tanggalSurat,
+            'kadesName' => $kadesName,
+        ]);
+    })->name('warga.surat.preview');
 });
+
+if (app()->environment('local')) {
+    Route::get('/_screenshot-prep-otp', function () {
+        $user = \App\Models\User::where('nik', '3529102904650001')->first();
+        if ($user) {
+            \App\Models\PasswordResetOtp::where('user_id', $user->id)->delete();
+            \App\Models\PasswordResetOtp::create([
+                'user_id' => $user->id,
+                'nik' => $user->nik,
+                'telepon' => $user->telepon,
+                'otp' => '123456',
+                'reset_token' => 'demo-token-skripsi-2026',
+                'verified_at' => now(),
+                'is_used' => false,
+                'expires_at' => now()->addMinutes(60),
+            ]);
+            return response()->json(['status' => 'ok']);
+        }
+        return response()->json(['status' => 'user_not_found'], 404);
+    });
+}
+
